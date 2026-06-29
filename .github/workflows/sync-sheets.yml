@@ -1,0 +1,34 @@
+name: Sync Google Sheets → Dashboard Data
+
+on:
+  schedule:
+    # Runs daily at 6:00 AM ET (10:00 UTC)
+    - cron: "0 10 * * *"
+  workflow_dispatch: # allow manual trigger from GitHub Actions UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch sheet data
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          SHEET_ID: "17s3_qtgez3aceNSV29TMjjIgiNjSl-qA"
+        run: node scripts/sync-sheets.js
+
+      - name: Commit updated data file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/1500-gateway.json
+          git diff --cached --quiet || git commit -m "chore: sync dashboard data from Google Sheets [skip ci]"
+          git push

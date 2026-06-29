@@ -1,238 +1,19 @@
-const kpis = [
-  {
-    label: "Stakeholders mapped",
-    value: "118",
-    target: "Target 1,000",
-    status: "Watch",
-    accent: "#2563eb",
-    progress: 12,
-  },
-  {
-    label: "Net sentiment",
-    value: "29.2%",
-    target: "Target 45%",
-    status: "Watch",
-    accent: "#0f766e",
-    progress: 65,
-  },
-  {
-    label: "Decision-maker touches",
-    value: "25",
-    target: "Target 60",
-    status: "Watch",
-    accent: "#d97706",
-    progress: 42,
-  },
-  {
-    label: "Coalition validators",
-    value: "53",
-    target: "Target 35",
-    status: "On Track",
-    accent: "#16a34a",
-    progress: 100,
-  },
-  {
-    label: "Active risk items",
-    value: "4",
-    target: "Goal <= 5",
-    status: "On Track",
-    accent: "#dc2626",
-    progress: 80,
-  },
-];
+import rawData from "@/data/1500-gateway.json";
 
-const weeklyHighlights = [
-  {
-    label: "Chamber engagement",
-    value: "12",
-    detail: "Key influencers engaged at the Fredericksburg Chamber event.",
-    color: "#2563eb",
-  },
-  {
-    label: "Council testimony",
-    value: "2",
-    detail: "Speakers at the June 23 City Council meeting.",
-    color: "#7c3aed",
-  },
-  {
-    label: "Support emails",
-    value: "3",
-    detail: "Positive emails sent directly to City Council.",
-    color: "#0891b2",
-  },
-  {
-    label: "Residents reached",
-    value: "5,200",
-    detail: "First direct-mail piece delivered.",
-    color: "#c2410c",
-  },
-];
-
-const digitalMetrics = [
-  ["Unique visitors", "52"],
-  ["Page views", "101"],
-  ["QR scans", "4"],
-];
-
-const patchStats = [
-  ["Universe", "5,639"],
-  ["Dials", "15,034"],
-  ["Live contacts", "885"],
-  ["Patches", "150"],
-];
-
-const patchOffices = [
-  { office: "Mayor Devine", live: 24, voicemail: 6, total: 30 },
-  { office: "CM Rowe", live: 27, voicemail: 3, total: 30 },
-  { office: "CM Crump", live: 26, voicemail: 4, total: 30 },
-  { office: "CM Finn", live: 24, voicemail: 6, total: 30 },
-  { office: "CM Holmes", live: 22, voicemail: 8, total: 30 },
-];
-
-const decisionMakers = [
-  {
-    initials: "KD",
-    name: "Kerry Devine",
-    role: "Mayor",
-    position: "Neutral",
-    touches: 5,
-    influence: "Education / Chamber",
-    note: "Revenue, school funding, wastewater, recycled water, and tax pressure.",
-  },
-  {
-    initials: "WM",
-    name: "Will Mackintosh",
-    role: "At-Large",
-    position: "Lean Oppose",
-    touches: 3,
-    influence: "Labor",
-    note: "Labor can influence him; water remains a major concern.",
-  },
-  {
-    initials: "JH",
-    name: "Jannan Holmes",
-    role: "At-Large",
-    position: "Lean Oppose",
-    touches: 4,
-    influence: "Education",
-    note: "Former school board member; may follow Mackintosh's position.",
-  },
-  {
-    initials: "MR",
-    name: "Matt Rowe",
-    role: "Ward 1",
-    position: "Neutral",
-    touches: 2,
-    influence: "Education / Labor",
-    note: "Democratic and environmental networks matter; former school board member.",
-  },
-  {
-    initials: "JC",
-    name: "Joy Crump",
-    role: "Ward 2",
-    position: "Neutral",
-    touches: 1,
-    influence: "Labor / Chamber",
-    note: "Business issues and avoiding tax increases are central messages.",
-  },
-  {
-    initials: "SF",
-    name: "Susanna Finn",
-    role: "Ward 3",
-    position: "Neutral",
-    touches: 6,
-    influence: "Labor",
-    note: "Workforce housing is a priority; labor outreach matters.",
-  },
-  {
-    initials: "CF",
-    name: "Charlie Frye",
-    role: "Vice Mayor",
-    position: "Support",
-    touches: 4,
-    influence: "Labor",
-    note: "Influenced by employment opportunities and education funding.",
-  },
-];
-
-const sentiment = [
-  { label: "Support", value: 118, color: "#16a34a" },
-  { label: "Neutral", value: 34, color: "#d97706" },
-  { label: "Oppose", value: 57, color: "#dc2626" },
-];
-
-const coalition = [
-  { label: "Willing advocates", value: 32, color: "#2563eb" },
-  { label: "Supportive organizations", value: 21, color: "#0f766e" },
-  { label: "Donation outreach", value: 5, color: "#9333ea" },
-];
-
-const risks = [
-  {
-    severity: "High",
-    title: "Resident quality-of-life opposition",
-    description:
-      "48 general-opposition stakeholders are tracked, with concerns around noise, forest removal, water, traffic, and quality of life.",
-    mitigation:
-      "Continue direct outreach, document mitigation commitments, and recruit nearby validators.",
-  },
-  {
-    severity: "High",
-    title: "Environmental and water advocacy",
-    description:
-      "6 conservation stakeholders and 9 opposition groups are tracked, including FOR, Sierra Club, and Inform Fredericksburg.",
-    mitigation:
-      "Prepare water, environmental, and stormwater facts before public meetings.",
-  },
-  {
-    severity: "Medium",
-    title: "Social media narrative",
-    description:
-      "2 social-media opposition stakeholders are tracked, including Inform Fredericksburg contacts.",
-    mitigation:
-      "Monitor public claims and keep council-facing answers concise and sourced.",
-  },
-  {
-    severity: "Medium",
-    title: "Site-adjacent access concerns",
-    description:
-      "1 business stakeholder is categorized as opposition with access and operational concerns.",
-    mitigation:
-      "Track access-specific concerns and route site-operation questions to the project team.",
-  },
-];
-
-const events = [
-  {
-    date: "Jul 6",
-    title: "Fredericksburg School Board",
-    type: "Hearing",
-    detail: "Public comment open",
-  },
-  {
-    date: "Jul 14",
-    title: "Fredericksburg City Council",
-    type: "Hearing",
-    detail: "Get speakers to this",
-  },
-  {
-    date: "Aug 25",
-    title: "Fredericksburg City Council",
-    type: "Public hearing",
-    detail: "Final approval milestone",
-  },
-];
-
-const mediaTargets = [
-  ["The Free Lance-Star", "Newspaper/Digital", "Daily 14k+ circ."],
-  ["Fredericksburg Free Press", "Online News", "Local 9k+ subs"],
-  ["Potomac Local News", "Online News", "Regional Stafford/PWC"],
-  ["InsideNoVa", "Digital/Print", "Northern Virginia"],
-  ["Virginia Business", "Magazine/Digital", "Statewide business"],
-  ["Washington Business Journal", "Digital/Print", "Regional B2B"],
-  ["WFVA / WFLS", "Radio", "Local AM/FM"],
-  ["WUSA9 / NBC4 / FOX5", "TV", "2.5M+ households"],
-];
+const {
+  status,
+  kpis,
+  weeklyHighlights,
+  digitalMetrics,
+  patchStats,
+  patchOffices,
+  decisionMakers,
+  sentiment,
+  coalition,
+  risks,
+  events,
+  mediaTargets,
+} = rawData;
 
 function StatusBadge({ value }) {
   const key = value.toLowerCase().replace(/\s+/g, "-");
@@ -271,11 +52,11 @@ export default function GatewayPage() {
           </div>
           <div className="meta-panel">
             <span>Last sync</span>
-            <strong>June 29, 2026</strong>
+            <strong>{status.lastSync}</strong>
             <span>Approval outlook</span>
-            <strong className="watch-text">Watch</strong>
+            <strong className="watch-text">{status.outlook}</strong>
             <span>Next milestone</span>
-            <strong>July 6 School Board</strong>
+            <strong>{status.nextMilestone}</strong>
           </div>
         </div>
       </section>
