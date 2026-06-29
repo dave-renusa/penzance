@@ -22,7 +22,7 @@ jobs:
       - name: Fetch sheet data
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          SHEET_ID: "17s3_qtgez3aceNSV29TMjjIgiNjSl-qA"
+          SHEET_ID: "147Tl2ahMg0-sGrkKKQtk0f_tuy2AXba3fu7VH9WZD9Q"
         run: node scripts/sync-sheets.js
 
       - name: Commit updated data file

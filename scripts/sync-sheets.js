@@ -2,7 +2,7 @@
 // Run via: node scripts/sync-sheets.js
 // Required env vars: GOOGLE_SERVICE_ACCOUNT_JSON, SHEET_ID
 
-const SHEET_ID = process.env.SHEET_ID || "17s3_qtgez3aceNSV29TMjjIgiNjSl-qA";
+const SHEET_ID = process.env.SHEET_ID || "147Tl2ahMg0-sGrkKKQtk0f_tuy2AXba3fu7VH9WZD9Q";
 
 const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
 if (!serviceAccountJson) {
