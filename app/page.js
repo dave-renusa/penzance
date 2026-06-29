@@ -5,11 +5,11 @@ export default function HomePage() {
         <p style={styles.eyebrow}>Penzance Reports</p>
         <h1 style={styles.heading}>Project Dashboard</h1>
         <p style={styles.text}>
-          This site is live. Project dashboards will be added here as they are built.
+          This site is live. Penzance Project dashboards will be added here as they are built.
         </p>
 
         <a href="/1500-gateway" style={styles.button}>
-          Open 1500 Gateway
+          Go To 1500 Gateway
         </a>
       </section>
     </main>
