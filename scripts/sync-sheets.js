@@ -40,16 +40,16 @@ async function getAccessToken() {
 
 // Tab names in the Google Sheet — update these to match your actual tab names
 const TABS = {
-  kpis: "KPIs",
-  highlights: "Weekly Highlights",
-  phone: "Phone Program",
-  digital: "Digital Metrics",
+  kpis: "KPI Targets",
+  highlights: "Activity Log",
+  phone: "Activity Log",
+  digital: "Activity Log",
   decisionMakers: "Decision Makers",
-  sentiment: "Sentiment",
+  sentiment: "Sentiment Trend",
   coalition: "Coalition",
   risks: "Risks",
-  calendar: "Calendar",
-  media: "Media",
+  calendar: "Upcoming Events",
+  media: "Earned Media",
 };
 
 async function fetchTab(tabName, token) {
