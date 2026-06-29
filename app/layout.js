@@ -1,12 +1,15 @@
 export const metadata = {
-  title: "Penzance Reports",
-  description: "Project reporting dashboard for Penzance",
+  title: "1500 Gateway Dashboard | Penzance Reports",
+  description: "Stakeholder, coalition, and engagement dashboard for 1500 Gateway.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body style={{ margin: 0 }}>{children}</body>
     </html>
   );
 }
