@@ -8,18 +8,11 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Supabase sends password-reset tokens as a URL hash fragment.
-    // Detect it here and forward the user to the set-password page.
     const hash = window.location.hash;
     if (hash && hash.includes("type=recovery")) {
-      const supabase = createClient();
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session) {
-          router.push("/auth/set-password");
-        }
-      });
+      window.location.href = "/auth/set-password" + hash;
     }
-  }, [router]);
+  }, []);
 
   return (
     <main style={styles.page}>
