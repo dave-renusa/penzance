@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-29T22:51:50.497Z",
+  "syncedAt": "2026-06-29T22:54:53.488Z",
   "status": {
     "lastSync": "June 29, 2026",
     "outlook": "Watch",
@@ -49,454 +49,230 @@
   ],
   "weeklyHighlights": [
     {
+      "label": "Chamber of Commerce",
+      "value": "1",
+      "detail": "Fredericksburg Chamber event",
       "color": "#2563eb"
     },
     {
-      "color": "#2563eb"
+      "label": "City Council Testimony",
+      "value": "1",
+      "detail": "June 23 City Council meeting",
+      "color": "#7c3aed"
     },
     {
-      "color": "#2563eb"
+      "label": "Letters of Support",
+      "value": "1",
+      "detail": "City Council",
+      "color": "#0891b2"
     },
     {
-      "color": "#2563eb"
+      "label": "Digital Reach",
+      "value": "1",
+      "detail": "Mailer and project website",
+      "color": "#c2410c"
     },
     {
-      "color": "#2563eb"
+      "label": "Direct Mail",
+      "value": "1",
+      "detail": "Residents",
+      "color": "#16a34a"
     },
     {
-      "color": "#2563eb"
-    },
-    {
-      "color": "#2563eb"
-    },
-    {
-      "color": "#2563eb"
-    },
-    {
-      "color": "#2563eb"
-    },
-    {
-      "color": "#2563eb"
-    },
-    {
-      "color": "#2563eb"
+      "label": "Patch-Through Phone Program",
+      "value": "6",
+      "detail": "Council offices; Mayor Devine",
+      "color": "#d97706"
     }
   ],
   "patchStats": [],
   "patchOffices": [],
-  "digitalMetrics": [
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
-    ]
-  ],
+  "digitalMetrics": [],
   "decisionMakers": [
     {
       "initials": "KD",
       "name": "Kerry Devine",
       "role": "Mayor",
       "position": "Neutral",
-      "touches": 0
+      "touches": 5,
+      "influence": "Mayor",
+      "note": "⚫  Could be influenced by the support the project would generate for education. \n⚫ Wants a new wastewater plant and a new school for the city \n⚫ Does not want to raise taxes. \n⚫ Could be more influenced if water is recycled \n⚫ Supportive of new forms of revenue for the city.\nInfluences: EDUCATION / CHAMBER\nEmail: kpdevine@fredericksburgva.gov"
     },
     {
       "initials": "WM",
       "name": "Will Mackintosh",
       "role": "At-Large",
       "position": "Lean Oppose",
-      "touches": 0
+      "touches": 3,
+      "influence": "At-Large",
+      "note": "⚫ Unions can influence him. \n⚫ Water has been a major concern.\nInfluences: LABOR\nEmail: wbmackintosh@fredericksburgva.gov"
     },
     {
       "initials": "JH",
       "name": "Jannan Holmes",
       "role": "At-Large",
       "position": "Lean Oppose",
-      "touches": 0
+      "touches": 4,
+      "influence": "At-Large",
+      "note": "⚫ Former school board member and will value educational funding. \n⚫ May follow Will McIntosh’s position.\nInfluences: EDUCATION\nEmail: jwholmes@fredericksburgva.gov"
     },
     {
       "initials": "MR",
       "name": "Matt Rowe",
       "role": "Ward 1",
       "position": "Neutral",
-      "touches": 0
+      "touches": 2,
+      "influence": "Ward 1",
+      "note": "⚫ Active Democrat and can be influenced by local Democrats.  \n⚫ Environmentalist and also would be attracted by funding for education. \n⚫ Former school board member, like Holmes.\nInfluences: EDUCATION / LABOR\nEmail: mdrowe@fredericksburgva.gov"
     },
     {
       "initials": "JC",
       "name": "Joy Crump",
       "role": "Ward 2",
       "position": "Neutral",
-      "touches": 0
+      "touches": 1,
+      "influence": "Ward 2",
+      "note": "⚫ Understands business issues \n⚫ Does not want to raise taxes.\nInfluences: LABOR / CHAMBER\nEmail: jycrump@fredericksburgva.gov"
     },
     {
       "initials": "SF",
       "name": "Susanna Finn",
       "role": "Ward 3",
       "position": "Neutral",
-      "touches": 0
+      "touches": 6,
+      "influence": "Ward 3",
+      "note": "⚫ Workforce housing is a priority.\n⚫ Her district\nInfluences: LABOR\nEmail: srfinn@fredericksburgva.gov"
     },
     {
       "initials": "CF",
       "name": "Charlie Frye",
       "role": "Vice Mayor",
       "position": "Support",
-      "touches": 0
+      "touches": 4,
+      "influence": "Ward 4, Vice Mayor",
+      "note": "⚫ Would be influenced by employment opportunities and funding for education. \n⚫ Member of the Teamsters Union.\nInfluences: LABOR\nEmail: clfrye@fredericksburgva.gov"
     }
   ],
   "sentiment": [
     {
-      "value": 0,
+      "label": "Support",
+      "value": 118,
       "color": "#16a34a"
+    },
+    {
+      "label": "Neutral",
+      "value": 34,
+      "color": "#d97706"
+    },
+    {
+      "label": "Oppose",
+      "value": 57,
+      "color": "#dc2626"
     }
   ],
   "coalition": [
     {
-      "value": 0,
+      "label": "Willing advocates",
+      "value": 32,
       "color": "#2563eb"
     },
     {
-      "value": 0,
-      "color": "#2563eb"
+      "label": "Supportive organizations",
+      "value": 26,
+      "color": "#0f766e"
     },
     {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
+      "label": "Secured validators",
+      "value": 53,
+      "color": "#9333ea"
     }
   ],
   "risks": [
     {
       "severity": "High",
       "title": "Resident quality-of-life opposition",
-      "description": "48 general-opposition stakeholders are tracked in Team Copy, with recurring concerns around noise, forest removal, water, traffic, and quality of life."
+      "description": "48 general-opposition stakeholders are tracked in Team Copy, with recurring concerns around noise, forest removal, water, traffic, and quality of life.",
+      "mitigation": "Continue direct outreach, document mitigation commitments, and recruit nearby validators."
     },
     {
       "severity": "High",
       "title": "Environmental and water advocacy",
-      "description": "6 conservation stakeholders and 9 opposition groups are tracked, including Friends of the Rappahannock (FOR); Sierra Club Virginia Chapter; Rappahannock Group Sierra Club; Inform Fredericksburg."
+      "description": "6 conservation stakeholders and 9 opposition groups are tracked, including Friends of the Rappahannock (FOR); Sierra Club Virginia Chapter; Rappahannock Group Sierra Club; Inform Fredericksburg.",
+      "mitigation": "Prepare water, environmental, and stormwater fact sheet; brief validators before public meetings."
     },
     {
       "severity": "Medium",
       "title": "Social media and transparency narrative",
-      "description": "2 social-media opposition stakeholders are tracked, including Inform Fredericksburg contacts."
+      "description": "2 social-media opposition stakeholders are tracked, including Inform Fredericksburg contacts.",
+      "mitigation": "Monitor public claims and keep council-facing answers concise, factual, and sourced."
     },
     {
       "severity": "Medium",
       "title": "Site-adjacent business/access concerns",
-      "description": "1 business stakeholder is categorized as opposition, with access and site-adjacent operational concerns to track."
+      "description": "1 business stakeholder is categorized as opposition, with access and site-adjacent operational concerns to track.",
+      "mitigation": "Track access-specific concerns and route site-operation questions to the project team."
     }
   ],
   "events": [
     {
       "date": "2026-07-06",
-      "type": "Hearing"
+      "title": "Fredericksburg School Board",
+      "type": "Hearing",
+      "detail": "Public comment open"
     },
     {
       "date": "2026-07-14",
-      "type": "Hearing"
+      "title": "Fredericksburg City Council",
+      "type": "Hearing",
+      "detail": "Get Speakers to this"
     },
     {
       "date": "2026-08-25",
-      "type": "Public Hearing"
+      "title": "Fredericksburg City Council",
+      "type": "Public Hearing",
+      "detail": ""
     }
   ],
   "mediaTargets": [
     [
       "The Free Lance-Star",
       "Newspaper/Digital",
-      ""
+      "Daily (14k+ circ.)"
     ],
     [
       "Fredericksburg Free Press",
       "Online News",
-      ""
+      "Local (9k+ subs)"
     ],
     [
       "Potomac Local News",
       "Online News",
-      ""
+      "Regional (Stafford/PWC)"
     ],
     [
       "InsideNoVa",
       "Digital/Print",
-      ""
+      "Northern Virginia"
     ],
     [
       "Virginia Business",
       "Magazine/Digital",
-      ""
+      "Statewide (Business)"
     ],
     [
       "Washington Business Journal",
       "Digital/Print",
-      ""
+      "Regional (B2B)"
     ],
     [
       "WFVA / WFLS (Star Radio)",
       "Radio (News/Talk)",
-      ""
+      "Local (1230 AM / 93.3 FM)"
     ],
     [
       "WUSA9 / NBC4 / FOX5",
       "TV (DC Market)",
-      ""
+      "2.5M+ Households"
     ],
     [
       "Data Center Dynamics",
@@ -506,27 +282,27 @@
     [
       "Outlet",
       "Reporter",
-      ""
+      "Email"
     ],
     [
       "The Free Lance-Star",
       "Keith Epps",
-      ""
+      "kepps@freelancestar.com"
     ],
     [
       "Fredericksburg Free Press",
       "Adele Uphaus",
-      ""
+      "adele.uphaus@fredericksburgfreepress.com"
     ],
     [
       "Virgina Free Press",
       "Martin Davis",
-      ""
+      "Mdavis@virginiafreepress.com"
     ],
     [
       "Potomac Local News",
       "Uriah Kiser",
-      ""
+      "ukiser@potomaclocal.com"
     ]
   ]
 }
