@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-29T22:46:41.124Z",
+  "syncedAt": "2026-06-29T22:51:50.497Z",
   "status": {
     "lastSync": "June 29, 2026",
     "outlook": "Watch",
@@ -7,41 +7,47 @@
   },
   "kpis": [
     {
+      "label": "Stakeholders Mapped",
+      "value": "118",
+      "target": "Target 200",
+      "status": "On Track",
       "accent": "#2563eb",
-      "progress": 0
+      "progress": 59
     },
     {
-      "accent": "#2563eb",
-      "progress": 0
+      "label": "Net Sentiment %",
+      "value": "35.0%",
+      "target": "Target 45.0%",
+      "status": "Watch",
+      "accent": "#0f766e",
+      "progress": 78
     },
     {
-      "accent": "#2563eb",
-      "progress": 0
+      "label": "Decision-Maker Touches",
+      "value": "33",
+      "target": "Target 60",
+      "status": "On Track",
+      "accent": "#d97706",
+      "progress": 55
     },
     {
-      "accent": "#2563eb",
-      "progress": 0
+      "label": "Coalition Validators",
+      "value": "53",
+      "target": "Target 35",
+      "status": "On Track",
+      "accent": "#16a34a",
+      "progress": 100
     },
     {
-      "accent": "#2563eb",
-      "progress": 0
-    },
-    {
-      "accent": "#2563eb",
-      "progress": 0
-    },
-    {
-      "accent": "#2563eb",
-      "progress": 0
+      "label": "Active Risk Items",
+      "value": "4",
+      "target": "Target <= 5",
+      "status": "On Track",
+      "accent": "#dc2626",
+      "progress": 80
     }
   ],
   "weeklyHighlights": [
-    {
-      "color": "#2563eb"
-    },
-    {
-      "color": "#2563eb"
-    },
     {
       "color": "#2563eb"
     },
@@ -122,54 +128,60 @@
     [
       null,
       null
-    ],
-    [
-      null,
-      null
-    ],
-    [
-      null,
-      null
     ]
   ],
   "decisionMakers": [
     {
+      "initials": "KD",
+      "name": "Kerry Devine",
+      "role": "Mayor",
+      "position": "Neutral",
       "touches": 0
     },
     {
+      "initials": "WM",
+      "name": "Will Mackintosh",
+      "role": "At-Large",
+      "position": "Lean Oppose",
       "touches": 0
     },
     {
+      "initials": "JH",
+      "name": "Jannan Holmes",
+      "role": "At-Large",
+      "position": "Lean Oppose",
       "touches": 0
     },
     {
+      "initials": "MR",
+      "name": "Matt Rowe",
+      "role": "Ward 1",
+      "position": "Neutral",
       "touches": 0
     },
     {
+      "initials": "JC",
+      "name": "Joy Crump",
+      "role": "Ward 2",
+      "position": "Neutral",
       "touches": 0
     },
     {
+      "initials": "SF",
+      "name": "Susanna Finn",
+      "role": "Ward 3",
+      "position": "Neutral",
       "touches": 0
     },
     {
-      "touches": 0
-    },
-    {
-      "touches": 0
-    },
-    {
+      "initials": "CF",
+      "name": "Charlie Frye",
+      "role": "Vice Mayor",
+      "position": "Support",
       "touches": 0
     }
   ],
   "sentiment": [
-    {
-      "value": 0,
-      "color": "#16a34a"
-    },
-    {
-      "value": 0,
-      "color": "#16a34a"
-    },
     {
       "value": 0,
       "color": "#16a34a"
@@ -407,110 +419,113 @@
     {
       "value": 0,
       "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
-    },
-    {
-      "value": 0,
-      "color": "#2563eb"
     }
   ],
   "risks": [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {}
+    {
+      "severity": "High",
+      "title": "Resident quality-of-life opposition",
+      "description": "48 general-opposition stakeholders are tracked in Team Copy, with recurring concerns around noise, forest removal, water, traffic, and quality of life."
+    },
+    {
+      "severity": "High",
+      "title": "Environmental and water advocacy",
+      "description": "6 conservation stakeholders and 9 opposition groups are tracked, including Friends of the Rappahannock (FOR); Sierra Club Virginia Chapter; Rappahannock Group Sierra Club; Inform Fredericksburg."
+    },
+    {
+      "severity": "Medium",
+      "title": "Social media and transparency narrative",
+      "description": "2 social-media opposition stakeholders are tracked, including Inform Fredericksburg contacts."
+    },
+    {
+      "severity": "Medium",
+      "title": "Site-adjacent business/access concerns",
+      "description": "1 business stakeholder is categorized as opposition, with access and site-adjacent operational concerns to track."
+    }
   ],
   "events": [
-    {},
-    {},
-    {},
-    {},
-    {}
+    {
+      "date": "2026-07-06",
+      "type": "Hearing"
+    },
+    {
+      "date": "2026-07-14",
+      "type": "Hearing"
+    },
+    {
+      "date": "2026-08-25",
+      "type": "Public Hearing"
+    }
   ],
   "mediaTargets": [
     [
-      "",
-      "",
+      "The Free Lance-Star",
+      "Newspaper/Digital",
       ""
     ],
     [
-      "",
-      "",
+      "Fredericksburg Free Press",
+      "Online News",
       ""
     ],
     [
-      "",
-      "",
+      "Potomac Local News",
+      "Online News",
       ""
     ],
     [
-      "",
-      "",
+      "InsideNoVa",
+      "Digital/Print",
       ""
     ],
     [
-      "",
-      "",
+      "Virginia Business",
+      "Magazine/Digital",
       ""
     ],
     [
-      "",
-      "",
+      "Washington Business Journal",
+      "Digital/Print",
       ""
     ],
     [
-      "",
-      "",
+      "WFVA / WFLS (Star Radio)",
+      "Radio (News/Talk)",
       ""
     ],
     [
-      "",
-      "",
+      "WUSA9 / NBC4 / FOX5",
+      "TV (DC Market)",
       ""
     ],
     [
-      "",
-      "",
+      "Data Center Dynamics",
+      "Digital/Print",
       ""
     ],
     [
-      "",
-      "",
+      "Outlet",
+      "Reporter",
       ""
     ],
     [
-      "",
-      "",
+      "The Free Lance-Star",
+      "Keith Epps",
       ""
     ],
     [
-      "",
-      "",
+      "Fredericksburg Free Press",
+      "Adele Uphaus",
       ""
     ],
     [
-      "",
-      "",
+      "Virgina Free Press",
+      "Martin Davis",
       ""
     ],
     [
-      "",
-      "",
-      ""
-    ],
-    [
-      "",
-      "",
-      ""
-    ],
-    [
-      "",
-      "",
+      "Potomac Local News",
+      "Uriah Kiser",
       ""
     ]
   ]
