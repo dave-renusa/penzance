@@ -1,13 +1,41 @@
 // Fetches data from the 1500 Gateway Google Sheet and writes data/1500-gateway.json.
 // Run via: node scripts/sync-sheets.js
-// Required env vars: GOOGLE_API_KEY, SHEET_ID
+// Required env vars: GOOGLE_SERVICE_ACCOUNT_JSON, SHEET_ID
 
 const SHEET_ID = process.env.SHEET_ID || "17s3_qtgez3aceNSV29TMjjIgiNjSl-qA";
-const API_KEY = process.env.GOOGLE_API_KEY;
 
-if (!API_KEY) {
-  console.error("GOOGLE_API_KEY env var is required");
+const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+if (!serviceAccountJson) {
+  console.error("GOOGLE_SERVICE_ACCOUNT_JSON env var is required");
   process.exit(1);
+}
+const serviceAccount = JSON.parse(serviceAccountJson);
+
+// Get a short-lived OAuth2 access token using the service account private key
+async function getAccessToken() {
+  const { createSign } = await import("crypto");
+  const now = Math.floor(Date.now() / 1000);
+  const header = Buffer.from(JSON.stringify({ alg: "RS256", typ: "JWT" })).toString("base64url");
+  const payload = Buffer.from(JSON.stringify({
+    iss: serviceAccount.client_email,
+    scope: "https://www.googleapis.com/auth/spreadsheets.readonly",
+    aud: "https://oauth2.googleapis.com/token",
+    iat: now,
+    exp: now + 3600,
+  })).toString("base64url");
+  const sign = createSign("RSA-SHA256");
+  sign.update(`${header}.${payload}`);
+  const sig = sign.sign(serviceAccount.private_key, "base64url");
+  const jwt = `${header}.${payload}.${sig}`;
+
+  const res = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=${jwt}`,
+  });
+  const json = await res.json();
+  if (!json.access_token) throw new Error(`Token error: ${JSON.stringify(json)}`);
+  return json.access_token;
 }
 
 // Tab names in the Google Sheet — update these to match your actual tab names
@@ -24,9 +52,11 @@ const TABS = {
   media: "Media",
 };
 
-async function fetchTab(tabName) {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tabName)}?key=${API_KEY}`;
-  const res = await fetch(url);
+async function fetchTab(tabName, token) {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tabName)}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`Failed to fetch tab "${tabName}": ${res.status} ${text}`);
@@ -47,6 +77,7 @@ function rowsToObjects(rows) {
 
 async function main() {
   console.log("Fetching tabs from Google Sheets…");
+  const token = await getAccessToken();
 
   const [
     kpiRows,
@@ -60,16 +91,16 @@ async function main() {
     calRows,
     mediaRows,
   ] = await Promise.all([
-    fetchTab(TABS.kpis),
-    fetchTab(TABS.highlights),
-    fetchTab(TABS.phone),
-    fetchTab(TABS.digital),
-    fetchTab(TABS.decisionMakers),
-    fetchTab(TABS.sentiment),
-    fetchTab(TABS.coalition),
-    fetchTab(TABS.risks),
-    fetchTab(TABS.calendar),
-    fetchTab(TABS.media),
+    fetchTab(TABS.kpis, token),
+    fetchTab(TABS.highlights, token),
+    fetchTab(TABS.phone, token),
+    fetchTab(TABS.digital, token),
+    fetchTab(TABS.decisionMakers, token),
+    fetchTab(TABS.sentiment, token),
+    fetchTab(TABS.coalition, token),
+    fetchTab(TABS.risks, token),
+    fetchTab(TABS.calendar, token),
+    fetchTab(TABS.media, token),
   ]);
 
   const kpisRaw = rowsToObjects(kpiRows);
