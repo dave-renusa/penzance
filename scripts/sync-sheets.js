@@ -118,6 +118,17 @@ async function main() {
   const calendarRaw = rowsToObjects(calRows);
   const mediaRaw = rowsToObjects(mediaRows);
 
+  // Debug: print column names from each tab
+  console.log("KPI columns:", Object.keys(kpisRaw[0] || {}));
+  console.log("KPI row 0:", JSON.stringify(kpisRaw[0]));
+  console.log("Decision Maker columns:", Object.keys(decisionMakersRaw[0] || {}));
+  console.log("Sentiment columns:", Object.keys(sentimentRaw[0] || {}));
+  console.log("Coalition columns:", Object.keys(coalitionRaw[0] || {}));
+  console.log("Risks columns:", Object.keys(risksRaw[0] || {}));
+  console.log("Events columns:", Object.keys(calendarRaw[0] || {}));
+  console.log("Media columns:", Object.keys(mediaRaw[0] || {}));
+  console.log("Highlights columns:", Object.keys(highlightsRaw[0] || {}));
+
   // ── Transform each section to the shape the dashboard expects ──
 
   const kpiAccents = {
