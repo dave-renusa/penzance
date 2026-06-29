@@ -67,7 +67,11 @@ async function fetchTab(tabName, token) {
 
 function rowsToObjects(rows) {
   if (!rows.length) return [];
-  const [headers, ...data] = rows;
+  // Skip title/description rows — find the first row with 3+ non-empty cells as the header
+  const headerIdx = rows.findIndex((r) => r.filter(Boolean).length >= 3);
+  if (headerIdx === -1) return [];
+  const headers = rows[headerIdx];
+  const data = rows.slice(headerIdx + 1);
   return data
     .filter((r) => r.some(Boolean))
     .map((row) =>
@@ -116,14 +120,31 @@ async function main() {
 
   // ── Transform each section to the shape the dashboard expects ──
 
-  const kpis = kpisRaw.map((r) => ({
-    label: r.label || r.Label,
-    value: r.value || r.Value,
-    target: r.target || r.Target,
-    status: r.status || r.Status,
-    accent: r.accent || r.Accent || "#2563eb",
-    progress: Number(r.progress || r.Progress || 0),
-  }));
+  const kpiAccents = {
+    "Stakeholders Mapped": "#2563eb",
+    "Net Sentiment %": "#0f766e",
+    "Decision-Maker Touches": "#d97706",
+    "Coalition Validators": "#16a34a",
+    "Active Risk Items": "#dc2626",
+  };
+
+  const kpis = kpisRaw.map((r) => {
+    const label = r["KPI"] || r.label || r.Label || "";
+    const target = r["Target"] || r.target || r.Target || "";
+    const value = r["Current Value"] || r.value || r.Value || "";
+    const status = r["Status"] || r.status || r.Status || "";
+    const targetNum = parseFloat(target.replace(/[^0-9.]/g, "")) || 0;
+    const valueNum = parseFloat(value.replace(/[^0-9.]/g, "")) || 0;
+    const progress = targetNum > 0 ? Math.min(100, Math.round((valueNum / targetNum) * 100)) : 0;
+    return {
+      label,
+      value,
+      target: `Target ${target}`,
+      status,
+      accent: kpiAccents[label] || "#2563eb",
+      progress,
+    };
+  });
 
   const weeklyHighlights = highlightsRaw.map((r) => ({
     label: r.label || r.Label,
