@@ -118,17 +118,6 @@ async function main() {
   const calendarRaw = rowsToObjects(calRows);
   const mediaRaw = rowsToObjects(mediaRows);
 
-  // Debug: print column names from each tab
-  console.log("KPI columns:", Object.keys(kpisRaw[0] || {}));
-  console.log("KPI row 0:", JSON.stringify(kpisRaw[0]));
-  console.log("Decision Maker columns:", Object.keys(decisionMakersRaw[0] || {}));
-  console.log("Sentiment columns:", Object.keys(sentimentRaw[0] || {}));
-  console.log("Coalition columns:", Object.keys(coalitionRaw[0] || {}));
-  console.log("Risks columns:", Object.keys(risksRaw[0] || {}));
-  console.log("Events columns:", Object.keys(calendarRaw[0] || {}));
-  console.log("Media columns:", Object.keys(mediaRaw[0] || {}));
-  console.log("Highlights columns:", Object.keys(highlightsRaw[0] || {}));
-
   // ── Transform each section to the shape the dashboard expects ──
 
   const kpiAccents = {
@@ -140,91 +129,83 @@ async function main() {
   };
 
   const kpis = kpisRaw.map((r) => {
-    const label = r["KPI"] || r.label || r.Label || "";
-    const target = r["Target"] || r.target || r.Target || "";
-    const value = r["Current Value"] || r.value || r.Value || "";
-    const status = r["Status"] || r.status || r.Status || "";
+    const label = r["KPI"] || "";
+    const value = r["Current Value"] || "";
+    const target = r["Target"] || "";
+    const status = r["Status"] || "";
     const targetNum = parseFloat(target.replace(/[^0-9.]/g, "")) || 0;
     const valueNum = parseFloat(value.replace(/[^0-9.]/g, "")) || 0;
     const progress = targetNum > 0 ? Math.min(100, Math.round((valueNum / targetNum) * 100)) : 0;
+    return { label, value, target: `Target ${target}`, status, accent: kpiAccents[label] || "#2563eb", progress };
+  });
+
+  // Activity Log: group by Type for highlights; count unique types for digital metrics
+  const activityTypes = [...new Set(highlightsRaw.map((r) => r["Type"]).filter(Boolean))];
+  const weeklyHighlights = activityTypes.map((type, i) => {
+    const rows = highlightsRaw.filter((r) => r["Type"] === type);
+    const colors = ["#2563eb", "#7c3aed", "#0891b2", "#c2410c", "#16a34a", "#d97706"];
     return {
-      label,
-      value,
-      target: `Target ${target}`,
-      status,
-      accent: kpiAccents[label] || "#2563eb",
-      progress,
+      label: type,
+      value: String(rows.length),
+      detail: rows.map((r) => r["Stakeholder/Target"] || r["Notes"]).filter(Boolean).slice(0, 2).join("; ") || "",
+      color: colors[i % colors.length],
     };
   });
 
-  const weeklyHighlights = highlightsRaw.map((r) => ({
-    label: r.label || r.Label,
-    value: r.value || r.Value,
-    detail: r.detail || r.Detail,
-    color: r.color || r.Color || "#2563eb",
-  }));
-
-  // Phone program: summary rows first, then per-office breakdown
-  const patchStats = phoneRaw
-    .filter((r) => r.type === "summary" || r.Type === "summary")
-    .map((r) => [r.label || r.Label, r.value || r.Value]);
-
-  const patchOffices = phoneRaw
-    .filter((r) => r.type === "office" || r.Type === "office")
-    .map((r) => ({
-      office: r.office || r.Office,
-      live: Number(r.live || r.Live || 0),
-      voicemail: Number(r.voicemail || r.Voicemail || 0),
-      total: Number(r.total || r.Total || 0),
-    }));
-
-  const digitalMetrics = digitalRaw.map((r) => [
-    r.label || r.Label,
-    r.value || r.Value,
-  ]);
+  // patchStats and patchOffices not in this sheet — keep empty
+  const patchStats = [];
+  const patchOffices = [];
+  const digitalMetrics = [];
 
   const decisionMakers = decisionMakersRaw.map((r) => ({
-    initials: r.initials || r.Initials,
-    name: r.name || r.Name,
-    role: r.role || r.Role,
-    position: r.position || r.Position,
-    touches: Number(r.touches || r.Touches || 0),
-    influence: r.influence || r.Influence,
-    note: r.note || r.Note,
+    initials: r["Initials"] || "",
+    name: r["Name"] || "",
+    role: r["Role"] || r["District/Body"] || "",
+    position: r["Position"] || "",
+    touches: Number(r["Meetings Held"] || 0),
+    influence: r["District/Body"] || "",
+    note: r["Key Concerns / Notes"] || "",
   }));
 
-  const sentiment = sentimentRaw.map((r) => ({
-    label: r.label || r.Label,
-    value: Number(r.value || r.Value || 0),
-    color: r.color || r.Color || "#16a34a",
-  }));
+  // Sentiment: use the most recent week's row
+  const latestSentiment = sentimentRaw[sentimentRaw.length - 1] || {};
+  const sentimentTotal = Number(latestSentiment["Total Mapped"] || 0);
+  const sentiment = [
+    { label: "Support", value: Number(latestSentiment["Support"] || 0) + Number(latestSentiment["Lean Support"] || 0), color: "#16a34a" },
+    { label: "Neutral", value: Number(latestSentiment["Neutral"] || 0), color: "#d97706" },
+    { label: "Oppose", value: Number(latestSentiment["Oppose"] || 0) + Number(latestSentiment["Lean Oppose"] || 0), color: "#dc2626" },
+  ];
 
-  const coalition = coalitionRaw.map((r) => ({
-    label: r.label || r.Label,
-    value: Number(r.value || r.Value || 0),
-    color: r.color || r.Color || "#2563eb",
-  }));
+  // Coalition: count by Status
+  const coalitionSecured = coalitionRaw.filter((r) => (r["Status"] || "").toLowerCase().includes("secur")).length;
+  const coalitionOrgs = coalitionRaw.filter((r) => r["Type"] === "Organization").length;
+  const coalitionAdvocates = coalitionRaw.filter((r) => r["Type"] === "Individual").length;
+  const coalition = [
+    { label: "Willing advocates", value: coalitionAdvocates, color: "#2563eb" },
+    { label: "Supportive organizations", value: coalitionOrgs, color: "#0f766e" },
+    { label: "Secured validators", value: coalitionSecured, color: "#9333ea" },
+  ];
 
-  const risks = risksRaw.map((r) => ({
-    severity: r.severity || r.Severity,
-    title: r.title || r.Title,
-    description: r.description || r.Description,
-    mitigation: r.mitigation || r.Mitigation,
-  }));
+  const risks = risksRaw
+    .filter((r) => (r["Status"] || "").toLowerCase() === "active")
+    .map((r) => ({
+      severity: r["Severity"] || "",
+      title: r["Title"] || "",
+      description: r["Description"] || "",
+      mitigation: r["Mitigation Plan"] || "",
+    }));
 
-  // calendar tab columns: date, title, type, detail
   const events = calendarRaw.map((r) => ({
-    date: r.date || r.Date,
-    title: r.title || r.Title,
-    type: r.type || r.Type,
-    detail: r.detail || r.Detail,
+    date: r["Date"] || "",
+    title: r["Event"] || "",
+    type: r["Type"] || "",
+    detail: r["Status / Detail"] || "",
   }));
 
-  // media tab columns: outlet, type, reach
   const mediaTargets = mediaRaw.map((r) => [
-    r.outlet || r.Outlet || "",
-    r.type || r.Type || "",
-    r.reach || r.Reach || "",
+    r["Outlet"] || "",
+    r["Type"] || "",
+    r["Reach (est.)"] || "",
   ]);
 
   // ── Status header metadata (pulled from KPIs sheet row 0 or a meta tab) ──
