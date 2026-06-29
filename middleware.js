@@ -31,7 +31,8 @@ export async function middleware(request) {
 
   const { pathname } = request.nextUrl;
 
-  const isProtected = pathname.startsWith("/1500-gateway");
+  const isProtected =
+    pathname.startsWith("/1500-gateway") && !pathname.startsWith("/auth");
 
   if (isProtected && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
