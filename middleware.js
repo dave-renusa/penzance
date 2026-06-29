@@ -31,14 +31,9 @@ export async function middleware(request) {
 
   const { pathname } = request.nextUrl;
 
-  if (
-    !user &&
-    !pathname.startsWith("/login") &&
-    !pathname.startsWith("/_next") &&
-    !pathname.startsWith("/api") &&
-    pathname !== "/icon.svg" &&
-    pathname !== "/favicon.ico"
-  ) {
+  const isProtected = pathname.startsWith("/1500-gateway");
+
+  if (isProtected && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
