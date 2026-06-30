@@ -1,3 +1,4 @@
+import Link from "next/link";
 import rawData from "@/data/1500-gateway.json";
 import weeklyBrief from "@/data/weekly-brief.json";
 
