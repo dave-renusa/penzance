@@ -1,0 +1,54 @@
+{
+  "weekOf": "June 23, 2026",
+  "patchRate": "16.9%",
+  "highlights": [
+    {
+      "label": "Chamber of Commerce",
+      "value": "12",
+      "detail": "Key influencers engaged — Superintendent, Deputy, and Chamber leadership at Fredericksburg Chamber event",
+      "color": "#2563eb"
+    },
+    {
+      "label": "City Council Testimony",
+      "value": "2",
+      "detail": "Charles McDaniels & Ernisha Hall at the June 23 Council meeting. Bonus: met the Great Oaks HOA President.",
+      "color": "#7c3aed"
+    },
+    {
+      "label": "Letters of Support",
+      "value": "3",
+      "detail": "Constituents wrote directly to City Council voicing support for 1500 Gateway",
+      "color": "#0891b2"
+    },
+    {
+      "label": "Direct Mail",
+      "value": "5,200",
+      "detail": "Residents reached — first mail piece delivered",
+      "color": "#16a34a"
+    },
+    {
+      "label": "Patch-Through Phone Program",
+      "value": "150",
+      "detail": "Residents patched live to Council offices — 16.9% patch rate",
+      "color": "#d97706"
+    }
+  ],
+  "digitalMetrics": [
+    ["Unique Visitors", "52"],
+    ["Page Views", "101"],
+    ["QR Code Scans", "4"]
+  ],
+  "patchStats": [
+    ["Universe", "5,639"],
+    ["Dials", "15,034"],
+    ["Live Contacts", "885"],
+    ["Patches", "150"]
+  ],
+  "patchOffices": [
+    { "office": "Mayor Devine", "live": 24, "voicemail": 6, "total": 30 },
+    { "office": "CM Rowe", "live": 27, "voicemail": 3, "total": 30 },
+    { "office": "CM Crump", "live": 26, "voicemail": 4, "total": 30 },
+    { "office": "CM Finn", "live": 24, "voicemail": 6, "total": 30 },
+    { "office": "CM Holmes", "live": 22, "voicemail": 8, "total": 30 }
+  ]
+}

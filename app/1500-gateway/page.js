@@ -1,12 +1,9 @@
 import rawData from "@/data/1500-gateway.json";
+import weeklyBrief from "@/data/weekly-brief.json";
 
 const {
   status,
   kpis,
-  weeklyHighlights,
-  digitalMetrics,
-  patchStats,
-  patchOffices,
   decisionMakers,
   sentiment,
   coalition,
@@ -14,6 +11,8 @@ const {
   events,
   mediaTargets,
 } = rawData;
+
+const { highlights: weeklyHighlights, digitalMetrics, patchStats, patchOffices } = weeklyBrief;
 
 function StatusBadge({ value }) {
   const key = value.toLowerCase().replace(/\s+/g, "-");

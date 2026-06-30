@@ -19,12 +19,14 @@ function parseLeadingDate(text) {
     if(mo>=1&&mo<=12&&day>=1&&day<=31)
       return `${yr}-${String(mo).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
   }
-  // "May 29th", "April 14th –", "June 3rd"
+  // "May 29th", "April 14th –", "June 3rd", "Nov 6th" (Nov–Dec = 2025)
   m = text.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2})/i);
   if (m) {
     const mo=MONTH_NUM[m[1].toLowerCase().slice(0,3)], day=parseInt(m[2]);
-    if(mo&&day>=1&&day<=31)
-      return `2026-${String(mo).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    if(mo&&day>=1&&day<=31) {
+      const yr = mo >= 10 ? 2025 : 2026;
+      return `${yr}-${String(mo).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    }
   }
   return null;
 }
@@ -134,7 +136,7 @@ function buildStats(people) {
   const monthMap = {};
   people.forEach(p => {
     p.events.forEach(e => {
-      if (e.date) {
+      if (e.date && e.date >= "2026-01-01") {
         const ym = e.date.slice(0,7);
         if (!monthMap[ym]) monthMap[ym] = { events:0, people:new Set() };
         monthMap[ym].events++;
@@ -594,7 +596,7 @@ export default function SupportDetails() {
               {(()=>{
                 const allEvents=[];
                 (people||[]).forEach(p=>p.events.forEach(e=>{
-                  if(e.date) allEvents.push({...e,name:p.name,occupation:p.occupation,pid:p.id,person:p});
+                  if(e.date && e.date >= "2026-01-01") allEvents.push({...e,name:p.name,occupation:p.occupation,pid:p.id,person:p});
                 }));
                 allEvents.sort((a,b)=>a.date.localeCompare(b.date)||a.name.localeCompare(b.name));
                 let prevMonth=null;
