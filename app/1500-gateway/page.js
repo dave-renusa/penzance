@@ -189,7 +189,10 @@ export default function GatewayPage() {
             <p className="eyebrow">Council strategy</p>
             <h2>Decision-Maker Status</h2>
           </div>
-          <span className="subtle">25 tracked touches</span>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <span className="subtle">25 tracked touches</span>
+            <Link href="/1500-gateway/powermap" style={{fontSize:12,fontWeight:700,color:"#fff",background:"var(--teal,#0f766e)",padding:"5px 14px",borderRadius:6,textDecoration:"none",letterSpacing:".04em",whiteSpace:"nowrap"}}>Power Map</Link>
+          </div>
         </div>
 
         <div className="decision-grid">
