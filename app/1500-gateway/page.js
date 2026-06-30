@@ -1,4 +1,3 @@
-import Link from "next/link";
 import rawData from "@/data/1500-gateway.json";
 import weeklyBrief from "@/data/weekly-brief.json";
 
@@ -192,7 +191,7 @@ export default function GatewayPage() {
           </div>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
             <span className="subtle">25 tracked touches</span>
-            <Link href="/1500-gateway/powermap" style={{fontSize:12,fontWeight:700,color:"#fff",background:"var(--teal,#0f766e)",padding:"5px 14px",borderRadius:6,textDecoration:"none",letterSpacing:".04em",whiteSpace:"nowrap"}}>Power Map</Link>
+            <a href="/1500-gateway/powermap" style={{fontSize:12,fontWeight:700,color:"#fff",background:"var(--teal,#0f766e)",padding:"5px 14px",borderRadius:6,textDecoration:"none",letterSpacing:".04em",whiteSpace:"nowrap"}}>Power Map</a>
           </div>
         </div>
 
