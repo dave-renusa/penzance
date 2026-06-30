@@ -8,6 +8,32 @@ const ADVOCATES_URL   = "https://dave-renusa.github.io/gateway/data/advocates.js
 
 const MONTHS = { "01":"Jan","02":"Feb","03":"Mar","04":"Apr","05":"May","06":"Jun","07":"Jul","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec" };
 
+const MONTH_NUM = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+
+function parseLeadingDate(text) {
+  // "6/2/26", "6/2/2026", "6/2"
+  let m = text.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?/);
+  if (m) {
+    const mo=parseInt(m[1]), day=parseInt(m[2]);
+    const yr=m[3]?(m[3].length===2?2000+parseInt(m[3]):parseInt(m[3])):2026;
+    if(mo>=1&&mo<=12&&day>=1&&day<=31)
+      return `${yr}-${String(mo).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  }
+  // "May 29th", "April 14th –", "June 3rd"
+  m = text.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2})/i);
+  if (m) {
+    const mo=MONTH_NUM[m[1].toLowerCase().slice(0,3)], day=parseInt(m[2]);
+    if(mo&&day>=1&&day<=31)
+      return `2026-${String(mo).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  }
+  return null;
+}
+
+function isoToDisplay(iso) {
+  const [yr,mo,day]=iso.split("-");
+  return `${MONTHS[mo]} ${parseInt(day)}, ${yr}`;
+}
+
 function inferTier(r) {
   const a = (r["Assessment"] || "").toLowerCase();
   if (a.includes("declin") || a.includes("inactive")) return "Declined / Inactive";
@@ -46,7 +72,9 @@ function buildEvents(r) {
   const notes = (r["Key Issues/Notes"]||"").trim();
   if (notes) {
     notes.split("\n").filter(n=>n.trim()).forEach(n => {
-      events.push({ date:null, date_display:"Notes", source:"Key Issues/Notes", text:n.trim() });
+      const trimmed = n.trim();
+      const date = parseLeadingDate(trimmed);
+      events.push({ date, date_display: date ? isoToDisplay(date) : "Notes", source:"Key Issues/Notes", text:trimmed });
     });
   }
   return events;
