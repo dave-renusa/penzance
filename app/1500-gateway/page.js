@@ -180,6 +180,7 @@ export default function GatewayPage() {
             <span>Net sentiment</span>
             <strong>+29.2%</strong>
           </div>
+          <a href="/1500-gateway/supportdetails" className="support-detail-btn">Stakeholder Detail →</a>
         </aside>
       </section>
 
@@ -777,6 +778,23 @@ export default function GatewayPage() {
         .callout strong {
           font-size: 30px;
         }
+
+        .support-detail-btn {
+          display: block;
+          margin-top: 16px;
+          padding: 11px 18px;
+          background: var(--accent, #0a2240);
+          color: #fff;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          text-decoration: none;
+          border-radius: 6px;
+          text-align: center;
+          transition: opacity 0.15s;
+        }
+        .support-detail-btn:hover { opacity: 0.85; }
 
         .decision-grid {
           display: grid;
