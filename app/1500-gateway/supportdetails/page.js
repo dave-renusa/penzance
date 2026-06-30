@@ -2,7 +2,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const DATA_URL = "https://dave-renusa.github.io/gateway/data/supporters.json";
+const SUPPORTERS_URL  = "https://dave-renusa.github.io/gateway/data/supporters.json";
+const UNION_RALLY_URL = "https://dave-renusa.github.io/gateway/data/union_rally.json";
+const ADVOCATES_URL   = "https://dave-renusa.github.io/gateway/data/advocates.json";
 
 const MONTHS = { "01":"Jan","02":"Feb","03":"Mar","04":"Apr","05":"May","06":"Jun","07":"Jul","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec" };
 
@@ -32,7 +34,10 @@ function buildEvents(r) {
     events.push({ date:"2026-02-06", date_display:"Feb 06, 2026", source:"2/6 Notes", text:r["2/6 Notes"].trim() });
   }
   if ((r["3/23 Dinner"]||"").trim()) {
-    events.push({ date:"2026-03-23", date_display:"Mar 23, 2026", source:"3/23 Dinner", text:"Attended" });
+    events.push({ date:"2026-03-23", date_display:"Mar 23, 2026", source:"3/23 Dinner", text:"Attended 3/23 Dinner" });
+  }
+  if ((r["Attending May 12"]||"").trim()) {
+    events.push({ date:"2026-05-12", date_display:"May 12, 2026", source:"May 12 Event", text:r["Attending May 12"].trim() });
   }
   for (let i = 1; i <= 7; i++) {
     const val = (r[`Contact #${i}`]||"").trim();
@@ -41,39 +46,54 @@ function buildEvents(r) {
   const notes = (r["Key Issues/Notes"]||"").trim();
   if (notes) {
     notes.split("\n").filter(n=>n.trim()).forEach(n => {
-      events.push({ date:null, date_display:"Undated", source:"Key Issues/Notes", text:n.trim() });
+      events.push({ date:null, date_display:"Notes", source:"Key Issues/Notes", text:n.trim() });
     });
   }
   return events;
 }
 
-function transform(rows) {
-  const people = rows.map((r, idx) => {
-    const name = [r["First"], r["Last"]].filter(Boolean).join(" ").trim();
+function transform(rows, source="main") {
+  return rows.map((r, idx) => {
+    const name = [r["First"], r["Last"]].filter(Boolean).join(" ").trim()
+      || (r["Name"]||"").trim();
     if (!name) return null;
-    const org = r["Organization"] || r["Organization 2"] || "";
-    const title = r["Title"] || r["Title 2"] || "";
+    const org = r["Organization"] || r["Organization 2"] || r["Union"] || r["Org"] || "";
+    const title = r["Title"] || r["Title 2"] || r["Role"] || "";
     const occupation = [title, org].filter(Boolean).join(", ");
-    const sector = inferSector(r);
-    const tier = inferTier(r);
-    const events = buildEvents(r);
+    const sector = source === "union" ? "Labor" : inferSector(r);
+    const tier = source === "union" ? "Active Advocate"
+      : source === "advocates" ? "Active Advocate"
+      : inferTier(r);
+    const events = source === "main" ? buildEvents(r) : [];
+
+    // For union rally / advocates, surface notes/commitment as an undated event
+    if (source === "union") {
+      const notes = (r["Notes"] || r["Key Issues/Notes"] || r["Commitment"] || "").trim();
+      if (notes) events.push({ date:null, date_display:"Notes", source:"Union Rally", text:notes });
+    }
+    if (source === "advocates") {
+      const notes = (r["Notes"] || r["Key Issues/Notes"] || r["Commitment"] || r["Ask"] || "").trim();
+      if (notes) events.push({ date:null, date_display:"Notes", source:"Advocates List", text:notes });
+    }
+
     const dated = events.filter(e=>e.date).sort((a,b)=>(a.date||"").localeCompare(b.date||""));
-    const marApr = events.some(e=>e.date&&(e.date.startsWith("2026-03")||e.date.startsWith("2026-04")));
     return {
-      id:`p${idx}`, name, occupation, sector, tier,
+      id:`${source[0]}${idx}`, name, occupation, sector, tier,
+      source,
       event_count: events.length,
       first_touch: dated[0]?.date_display||"",
       latest_touch: dated[dated.length-1]?.date_display||"",
       first_touch_iso: dated[0]?.date||"",
       latest_touch_iso: dated[dated.length-1]?.date||"",
-      mar_apr_touched: marApr,
       events,
     };
   }).filter(Boolean);
+}
 
+function buildStats(people) {
   const sectorMap = {};
   people.forEach(p => {
-    if (!sectorMap[p.sector]) sectorMap[p.sector] = { sector:p.sector, total:0, active_advocate:0, willing_supporter:0, engaged_dinner:0, tracked:0, declined:0, mar_apr_touched:0 };
+    if (!sectorMap[p.sector]) sectorMap[p.sector] = { sector:p.sector, total:0, active_advocate:0, willing_supporter:0, engaged_dinner:0, tracked:0, declined:0 };
     const s = sectorMap[p.sector];
     s.total++;
     if (p.tier==="Active Advocate") s.active_advocate++;
@@ -81,7 +101,6 @@ function transform(rows) {
     else if (p.tier==="Engaged (Dinner)") s.engaged_dinner++;
     else if (p.tier==="Declined / Inactive") s.declined++;
     else s.tracked++;
-    if (p.mar_apr_touched) s.mar_apr_touched++;
   });
 
   const monthMap = {};
@@ -102,14 +121,12 @@ function transform(rows) {
       advocates: people.filter(p=>p.tier==="Active Advocate").length,
       supporters: people.filter(p=>p.tier==="Willing Supporter").length,
       dinner: people.filter(p=>p.tier==="Engaged (Dinner)").length,
-      mar_apr: people.filter(p=>p.mar_apr_touched).length,
       touchpoints: people.reduce((s,p)=>s+p.events.filter(e=>e.date).length, 0),
     },
-    people,
     sectors: Object.values(sectorMap).sort((a,b)=>b.total-a.total),
     monthly: Object.entries(monthMap).sort((a,b)=>a[0].localeCompare(b[0])).map(([ym,d])=>{
       const [yr,mo] = ym.split("-");
-      return { month:`${MONTHS[mo]} ${yr}`, events:d.events, unique:d.people.size, is_focus:ym==="2026-03"||ym==="2026-04" };
+      return { month:`${MONTHS[mo]} ${yr}`, events:d.events, unique:d.people.size };
     }),
   };
 }
@@ -117,33 +134,46 @@ function transform(rows) {
 const TIER_CLASS = { "Active Advocate":"advocate","Willing Supporter":"supporter","Engaged (Dinner)":"engaged","Declined / Inactive":"declined","Tracked Contact":"tracked" };
 
 export default function SupportDetails() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [people, setPeople]         = useState(null);
+  const [advocates, setAdvocates]   = useState(null);
+  const [derived, setDerived]       = useState(null);
+  const [loading, setLoading]       = useState(true);
+  const [error, setError]           = useState(null);
   const [activeSector, setActiveSector] = useState(null);
-  const [activeTab, setActiveTab] = useState("coalition");
-  const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab]   = useState("coalition");
+  const [search, setSearch]         = useState("");
   const [tierFilter, setTierFilter] = useState("");
-  const [marAprFilter, setMarAprFilter] = useState("");
-  const [sort, setSort] = useState("touches");
-  const [tableSort, setTableSort] = useState("touches");
-  const [modal, setModal] = useState(null);
+  const [sort, setSort]             = useState("touches");
+  const [tableSort, setTableSort]   = useState("touches");
+  const [modal, setModal]           = useState(null);
 
   useEffect(() => {
-    fetch(DATA_URL)
-      .then(r=>r.json())
-      .then(rows=>{ setData(transform(rows)); setLoading(false); })
-      .catch(e=>{ setError(e.message); setLoading(false); });
+    Promise.allSettled([
+      fetch(SUPPORTERS_URL).then(r=>r.json()),
+      fetch(UNION_RALLY_URL).then(r=>r.json()),
+      fetch(ADVOCATES_URL).then(r=>r.json()),
+    ]).then(([suppRes, rallyRes, advRes]) => {
+      const suppPeople  = suppRes.status==="fulfilled"  ? transform(suppRes.value, "main") : [];
+      const rallyPeople = rallyRes.status==="fulfilled" ? transform(rallyRes.value, "union") : [];
+      const advPeople   = advRes.status==="fulfilled"   ? transform(advRes.value, "advocates") : [];
+
+      const allPeople = [...suppPeople, ...rallyPeople];
+      setPeople(allPeople);
+      setAdvocates([
+        ...allPeople.filter(p=>p.tier==="Active Advocate"),
+        ...advPeople.filter(p=>!allPeople.some(a=>a.name===p.name)),
+      ]);
+      setDerived(buildStats(allPeople));
+      setLoading(false);
+    }).catch(e=>{ setError(e.message); setLoading(false); });
   }, []);
 
   function filtered() {
-    if (!data) return [];
-    let list = data.people.slice();
+    if (!people) return [];
+    let list = people.slice();
     if (activeSector) list = list.filter(p=>p.sector===activeSector);
     if (search) { const q=search.toLowerCase(); list=list.filter(p=>p.name.toLowerCase().includes(q)||(p.occupation||"").toLowerCase().includes(q)); }
     if (tierFilter) list = list.filter(p=>p.tier===tierFilter);
-    if (marAprFilter==="yes") list = list.filter(p=>p.mar_apr_touched);
-    if (marAprFilter==="no") list = list.filter(p=>!p.mar_apr_touched);
     if (sort==="touches") list.sort((a,b)=>b.event_count-a.event_count||a.name.localeCompare(b.name));
     else if (sort==="recent") list.sort((a,b)=>(b.latest_touch_iso||"").localeCompare(a.latest_touch_iso||"")||a.name.localeCompare(b.name));
     else list.sort((a,b)=>a.name.localeCompare(b.name));
@@ -151,15 +181,13 @@ export default function SupportDetails() {
   }
 
   function tableSorted() {
-    if (!data) return [];
-    let list = data.people.slice();
+    if (!people) return [];
+    let list = people.slice();
     if (tableSort==="touches") list.sort((a,b)=>b.event_count-a.event_count||a.name.localeCompare(b.name));
     else if (tableSort==="name") list.sort((a,b)=>a.name.localeCompare(b.name));
     else list.sort((a,b)=>a.sector.localeCompare(b.sector)||b.event_count-a.event_count);
     return list;
   }
-
-  const esc = s=>String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   return (
     <>
@@ -225,7 +253,7 @@ export default function SupportDetails() {
         .person-card.tier-supporter{border-left-color:var(--gold);}
         .person-card.tier-engaged{border-left-color:var(--navy-light);}
         .person-card.tier-declined{border-left-color:var(--red);opacity:0.7;}
-        .person-card.mar-apr::after{content:'';position:absolute;top:0;right:0;border-style:solid;border-width:0 20px 20px 0;border-color:transparent var(--gold) transparent transparent;}
+        .person-card.source-union::after{content:'UNION';position:absolute;top:8px;right:8px;font-size:9px;font-weight:700;letter-spacing:1px;background:var(--gold);color:var(--white);padding:2px 5px;}
         .person-name{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:0.5px;color:var(--navy);}
         .person-occ{font-size:12px;color:var(--text-muted);line-height:1.35;margin-top:3px;min-height:28px;}
         .person-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);}
@@ -255,7 +283,6 @@ export default function SupportDetails() {
         .timeline::before{content:'';position:absolute;left:4px;top:8px;bottom:8px;width:2px;background:var(--cream-dark);}
         .timeline-event{position:relative;padding-bottom:16px;}
         .timeline-event::before{content:'';position:absolute;left:-20px;top:6px;width:10px;height:10px;background:var(--gold);border:2px solid var(--white);border-radius:50%;box-shadow:0 0 0 1px var(--cream-dark);}
-        .timeline-event.focus::before{background:var(--red);}
         .timeline-date{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--navy);letter-spacing:1px;}
         .timeline-source{font-size:11px;color:var(--text-muted);margin-left:7px;font-style:italic;}
         .timeline-text{font-size:13px;color:var(--text);margin-top:3px;line-height:1.5;}
@@ -265,13 +292,12 @@ export default function SupportDetails() {
         .bar-block{width:100%;position:relative;transition:opacity 0.15s;min-height:24px;}
         .bar-block:hover{opacity:0.85;}
         .bar-value{color:var(--white);font-family:'Bebas Neue',sans-serif;font-size:16px;text-align:center;padding:3px 0;line-height:1;}
-        .bar-block.focus .bar-value{color:var(--navy);}
         .bar-label{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:0.5px;color:var(--navy);margin-top:6px;text-align:center;}
         .bar-label small{display:block;font-family:'Source Sans 3',sans-serif;font-size:10px;color:var(--text-muted);letter-spacing:0;font-weight:400;margin-top:1px;}
-        .marapr-month-head{background:var(--gold);color:var(--white);padding:7px 14px;font-family:'Bebas Neue',sans-serif;letter-spacing:1.5px;font-size:15px;margin:20px 24px 0;}
-        .marapr-row{display:grid;grid-template-columns:80px 1fr;gap:14px;padding:12px 24px;border-bottom:1px solid var(--border);cursor:pointer;}
-        .marapr-row:hover{background:var(--cream);}
-        .marapr-date{font-family:'Bebas Neue',sans-serif;color:var(--navy);font-size:14px;letter-spacing:1px;}
+        .activity-month-head{background:var(--navy);color:var(--white);padding:7px 14px;font-family:'Bebas Neue',sans-serif;letter-spacing:1.5px;font-size:15px;margin:20px 24px 0;}
+        .activity-row{display:grid;grid-template-columns:80px 1fr;gap:14px;padding:12px 24px;border-bottom:1px solid var(--border);cursor:pointer;}
+        .activity-row:hover{background:var(--cream);}
+        .activity-date{font-family:'Bebas Neue',sans-serif;color:var(--navy);font-size:14px;letter-spacing:1px;}
         .tbl-wrap{overflow-x:auto;}
         table{width:100%;border-collapse:collapse;font-size:14px;}
         thead tr{background:var(--navy);color:var(--white);}
@@ -279,6 +305,16 @@ export default function SupportDetails() {
         td{padding:9px 12px;border-bottom:1px solid var(--border);}
         tr.tbl-row{cursor:pointer;}
         tr.tbl-row:hover td{background:var(--cream);}
+        .adv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:24px;}
+        .adv-card{background:var(--white);border:1px solid var(--border);border-top:4px solid var(--green);padding:18px 20px;cursor:pointer;transition:all 0.15s;}
+        .adv-card:hover{box-shadow:0 4px 16px rgba(10,34,64,0.12);transform:translateY(-2px);}
+        .adv-card.union{border-top-color:var(--gold);}
+        .adv-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.5px;color:var(--navy);}
+        .adv-org{font-size:13px;color:var(--text-muted);margin-top:3px;}
+        .adv-badge{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;}
+        .adv-badge.green{background:#DCEFE6;color:var(--green);}
+        .adv-badge.gold{background:#FAEFD3;color:var(--orange);}
+        .adv-notes{font-size:13px;color:var(--text-muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.5;}
         .footer{margin-top:40px;}
         .footer-bar{background:var(--navy);color:var(--cream-dark);padding:16px 40px;font-size:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;letter-spacing:0.5px;}
         .footer-bar strong{color:var(--gold-light);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1.5px;}
@@ -302,9 +338,14 @@ export default function SupportDetails() {
       <div className="gold-stripe" />
 
       <nav className="nav">
-        {["coalition","people","timeline"].map(tab=>(
-          <button key={tab} className={activeTab===tab?"active":""} onClick={()=>setActiveTab(tab)}>
-            {tab==="coalition"?"Coalition":tab==="people"?"All Supporters":"Activity Timeline"}
+        {[
+          ["coalition","Coalition"],
+          ["people","All Supporters"],
+          ["advocates","Advocates"],
+          ["timeline","Activity Timeline"],
+        ].map(([id,label])=>(
+          <button key={id} className={activeTab===id?"active":""} onClick={()=>setActiveTab(id)}>
+            {label}
           </button>
         ))}
       </nav>
@@ -313,37 +354,32 @@ export default function SupportDetails() {
         {loading && <div style={{textAlign:"center",padding:"60px",color:"var(--text-muted)",fontFamily:"Bebas Neue",fontSize:"24px",letterSpacing:"2px"}}>LOADING COALITION DATA…</div>}
         {error && <div style={{textAlign:"center",padding:"60px",color:"var(--red)"}}>Error loading data: {error}</div>}
 
-        {data && <>
+        {derived && <>
           {/* Stats */}
           <div className="stats-row">
             <div className="stat-card green">
               <div className="stat-label">Active Advocates</div>
-              <div className="stat-value">{data.stats.advocates}</div>
+              <div className="stat-value">{derived.stats.advocates}</div>
               <div className="stat-foot">Multiple council contacts</div>
             </div>
             <div className="stat-card gold">
               <div className="stat-label">Willing Supporters</div>
-              <div className="stat-value">{data.stats.supporters}</div>
+              <div className="stat-value">{derived.stats.supporters}</div>
               <div className="stat-foot">Confirmed supporters</div>
             </div>
             <div className="stat-card">
               <div className="stat-label">Dinner Guests</div>
-              <div className="stat-value">{data.stats.dinner}</div>
-              <div className="stat-foot">Mar 23 dinner attendees</div>
+              <div className="stat-value">{derived.stats.dinner}</div>
+              <div className="stat-foot">3/23 dinner attendees</div>
             </div>
             <div className="stat-card">
               <div className="stat-label">Total in Coalition</div>
-              <div className="stat-value">{data.stats.total}</div>
+              <div className="stat-value">{derived.stats.total}</div>
               <div className="stat-foot">Across all sectors</div>
-            </div>
-            <div className="stat-card gold">
-              <div className="stat-label">Mar / Apr 2026</div>
-              <div className="stat-value">{data.stats.mar_apr}</div>
-              <div className="stat-foot">Touched in focus window</div>
             </div>
             <div className="stat-card">
               <div className="stat-label">Total Touchpoints</div>
-              <div className="stat-value">{data.stats.touchpoints}</div>
+              <div className="stat-value">{derived.stats.touchpoints}</div>
               <div className="stat-foot">Dated engagement events</div>
             </div>
           </div>
@@ -356,11 +392,11 @@ export default function SupportDetails() {
                 <span className="head-meta">Click a sector to filter supporters below</span>
               </div>
               <div className="sector-grid">
-                {data.sectors.map(s=>(
+                {derived.sectors.map(s=>(
                   <div key={s.sector} className={`sector-card${activeSector===s.sector?" active":""}`} onClick={()=>setActiveSector(activeSector===s.sector?null:s.sector)}>
                     <div className="sec-name">{s.sector}</div>
                     <div className="sec-count">{s.total}</div>
-                    <div className="sec-meta">{s.mar_apr_touched} touched in Mar/Apr 2026</div>
+                    <div className="sec-meta">{s.active_advocate} active advocates · {s.willing_supporter} supporters</div>
                     <div className="sec-bar">
                       {s.active_advocate>0&&<div style={{width:`${(s.active_advocate/s.total)*100}%`,background:"var(--green)"}} />}
                       {s.willing_supporter>0&&<div style={{width:`${(s.willing_supporter/s.total)*100}%`,background:"var(--gold)"}} />}
@@ -385,10 +421,6 @@ export default function SupportDetails() {
                 <div className="tier-legend-item"><div className="tier-legend-bar" style={{background:"var(--navy-light)"}} />Engaged (Dinner)</div>
                 <div className="tier-legend-item"><div className="tier-legend-bar" style={{background:"var(--cream-dark)"}} />Tracked Contact</div>
                 <div className="tier-legend-item"><div className="tier-legend-bar" style={{background:"var(--red)"}} />Declined</div>
-                <div className="tier-legend-item" style={{marginLeft:"auto"}}>
-                  <div style={{width:0,height:0,borderStyle:"solid",borderWidth:"0 10px 10px 0",borderColor:"transparent var(--gold) transparent transparent"}} />
-                  <span style={{marginLeft:4}}>Touched Mar/Apr 2026</span>
-                </div>
               </div>
               <div className="filter-bar">
                 <span className="filter-label">Search</span>
@@ -402,26 +434,20 @@ export default function SupportDetails() {
                   <option>Tracked Contact</option>
                   <option>Declined / Inactive</option>
                 </select>
-                <span className="filter-label">Mar/Apr</span>
-                <select value={marAprFilter} onChange={e=>setMarAprFilter(e.target.value)}>
-                  <option value="">All</option>
-                  <option value="yes">Touched</option>
-                  <option value="no">Not touched</option>
-                </select>
                 <span className="filter-label">Sort</span>
                 <select value={sort} onChange={e=>setSort(e.target.value)}>
                   <option value="touches">Most touches</option>
                   <option value="recent">Most recent</option>
                   <option value="name">Name A–Z</option>
                 </select>
-                <button onClick={()=>{setSearch("");setTierFilter("");setMarAprFilter("");setSort("touches");setActiveSector(null);}}>Reset</button>
-                <span className="results-count">{filtered().length} of {data.people.length}</span>
+                <button onClick={()=>{setSearch("");setTierFilter("");setSort("touches");setActiveSector(null);}}>Reset</button>
+                <span className="results-count">{filtered().length} of {people.length}</span>
               </div>
               <div className="people-grid">
                 {filtered().length===0
                   ? <div className="empty"><div style={{fontFamily:"Bebas Neue",fontSize:"40px",color:"var(--cream-dark)"}}>No matches</div><p>Adjust your filters.</p></div>
                   : filtered().map(p=>(
-                    <div key={p.id} className={`person-card tier-${TIER_CLASS[p.tier]}${p.mar_apr_touched?" mar-apr":""}`} onClick={()=>setModal(p)}>
+                    <div key={p.id} className={`person-card tier-${TIER_CLASS[p.tier]}${p.source==="union"?" source-union":""}`} onClick={()=>setModal(p)}>
                       <div className="person-name">{p.name}</div>
                       <div className="person-occ">{p.occupation||"No role recorded"}</div>
                       <div className="person-meta">
@@ -452,20 +478,19 @@ export default function SupportDetails() {
               </div>
               <div className="tbl-wrap">
                 <table>
-                  <thead><tr><th>Name</th><th>Sector</th><th>Role / Org</th><th>Tier</th><th>Touches</th><th>First</th><th>Latest</th><th>Mar/Apr</th></tr></thead>
+                  <thead><tr><th>Name</th><th>Sector</th><th>Role / Org</th><th>Tier</th><th>Touches</th><th>First</th><th>Latest</th></tr></thead>
                   <tbody>
                     {tableSorted().map(p=>{
                       const tierColor={"Active Advocate":"var(--green)","Willing Supporter":"var(--orange)","Engaged (Dinner)":"var(--text-muted)","Declined / Inactive":"var(--red)","Tracked Contact":"var(--text-muted)"}[p.tier];
                       return (
-                        <tr key={p.id} className="tbl-row" onClick={()=>setModal(p)} style={{background:p.mar_apr_touched?"#FFF9EB":""}}>
-                          <td style={{fontWeight:600}}>{p.name}</td>
+                        <tr key={p.id} className="tbl-row" onClick={()=>setModal(p)} style={{background:p.source==="union"?"#FFFAED":""}}>
+                          <td style={{fontWeight:600}}>{p.name}{p.source==="union"&&<span style={{marginLeft:6,fontSize:10,fontWeight:700,letterSpacing:1,background:"var(--gold)",color:"var(--white)",padding:"1px 5px"}}>UNION</span>}</td>
                           <td style={{fontSize:13}}>{p.sector}</td>
                           <td style={{fontSize:13,color:"var(--text-muted)"}}>{p.occupation||"—"}</td>
                           <td><span style={{fontSize:11,textTransform:"uppercase",letterSpacing:"0.5px",color:tierColor,fontWeight:700}}>{p.tier}</span></td>
                           <td style={{textAlign:"center",fontFamily:"Bebas Neue",fontSize:18,color:"var(--navy)"}}>{p.event_count}</td>
                           <td style={{textAlign:"center",fontSize:12}}>{p.first_touch||"—"}</td>
                           <td style={{textAlign:"center",fontSize:12}}>{p.latest_touch||"—"}</td>
-                          <td style={{textAlign:"center"}}>{p.mar_apr_touched?<span style={{color:"var(--gold)",fontWeight:700}}>●</span>:<span style={{color:"var(--cream-dark)"}}>○</span>}</td>
                         </tr>
                       );
                     })}
@@ -475,58 +500,96 @@ export default function SupportDetails() {
             </div>
           </div>
 
+          {/* Advocates Tab */}
+          <div className={`tab-content${activeTab==="advocates"?" active":""}`}>
+            <div className="section">
+              <div className="section-head">
+                <h2>Active Advocates</h2>
+                <span className="head-meta">{advocates?.length||0} total · Green = coalition list · Gold = union rally</span>
+              </div>
+              <div className="adv-grid">
+                {(advocates||[]).map(p=>(
+                  <div key={p.id} className={`adv-card${p.source==="union"?" union":""}`} onClick={()=>setModal(p)}>
+                    <div className="adv-name">{p.name}</div>
+                    <div className="adv-org">{p.occupation||"No role recorded"}</div>
+                    <div>
+                      <span className={`adv-badge ${p.source==="union"?"gold":"green"}`}>
+                        {p.source==="union"?"Union Rally":"Active Advocate"}
+                      </span>
+                      <span style={{marginLeft:8,fontSize:12,color:"var(--text-muted)"}}>{p.sector}</span>
+                    </div>
+                    {p.events.length>0&&(
+                      <div className="adv-notes">
+                        {p.events[0].text.slice(0,140)}{p.events[0].text.length>140?"…":""}
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {(advocates||[]).length===0&&(
+                  <div className="empty" style={{gridColumn:"1/-1"}}><div style={{fontFamily:"Bebas Neue",fontSize:"32px",color:"var(--cream-dark)"}}>No advocates loaded</div><p>Check that Union Rally and Advocates sheets are published.</p></div>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Timeline Tab */}
           <div className={`tab-content${activeTab==="timeline"?" active":""}`}>
             <div className="section">
               <div className="section-head">
                 <h2>Monthly Engagement Volume</h2>
-                <span className="head-meta">Mar / Apr 2026 highlighted in gold</span>
+                <span className="head-meta">Dated events by month</span>
               </div>
-              <div className="monthly-bars">
-                {(()=>{
-                  const max=Math.max(...data.monthly.map(m=>m.events),1);
-                  return data.monthly.map(m=>(
-                    <div key={m.month} className="monthly-bar">
-                      <div className="bar-stack">
-                        <div className={`bar-block${m.is_focus?" focus":""}`} style={{height:`${(m.events/max)*100}%`,background:m.is_focus?"var(--gold)":"var(--navy)"}}>
-                          <div className="bar-value">{m.events}</div>
+              {derived.monthly.length===0
+                ? <div className="empty"><p>No dated events recorded.</p></div>
+                : <div className="monthly-bars">
+                  {(()=>{
+                    const max=Math.max(...derived.monthly.map(m=>m.events),1);
+                    return derived.monthly.map(m=>(
+                      <div key={m.month} className="monthly-bar">
+                        <div className="bar-stack">
+                          <div className="bar-block" style={{height:`${(m.events/max)*100}%`,background:"var(--navy)"}}>
+                            <div className="bar-value">{m.events}</div>
+                          </div>
                         </div>
+                        <div className="bar-label">{m.month}<small>{m.unique} people</small></div>
                       </div>
-                      <div className="bar-label">{m.month}<small>{m.unique} people</small></div>
-                    </div>
-                  ));
-                })()}
-              </div>
+                    ));
+                  })()}
+                </div>
+              }
             </div>
             <div className="section">
               <div className="section-head">
-                <h2>Mar / Apr 2026 Detail</h2>
-                <span className="head-meta">Chronological contact log</span>
+                <h2>Campaign Activity Log</h2>
+                <span className="head-meta">All dated contact events</span>
               </div>
               {(()=>{
-                const focusEvents=[];
-                data.people.forEach(p=>p.events.forEach(e=>{
-                  if(e.date&&(e.date.startsWith("2026-03")||e.date.startsWith("2026-04")))
-                    focusEvents.push({...e,name:p.name,occupation:p.occupation,pid:p.id,person:p});
+                const allEvents=[];
+                (people||[]).forEach(p=>p.events.forEach(e=>{
+                  if(e.date) allEvents.push({...e,name:p.name,occupation:p.occupation,pid:p.id,person:p});
                 }));
-                focusEvents.sort((a,b)=>a.date.localeCompare(b.date)||a.name.localeCompare(b.name));
+                allEvents.sort((a,b)=>a.date.localeCompare(b.date)||a.name.localeCompare(b.name));
                 let prevMonth=null;
-                return focusEvents.map((e,i)=>{
-                  const month=e.date.startsWith("2026-03")?"MARCH 2026":"APRIL 2026";
-                  return (
-                    <div key={i}>
-                      {month!==prevMonth&&(prevMonth=month,<div className="marapr-month-head">{month}</div>)}
-                      <div className="marapr-row" onClick={()=>setModal(e.person)}>
-                        <div className="marapr-date">{e.date_display.replace(", 2026","")}</div>
-                        <div>
-                          <div><strong style={{color:"var(--navy)"}}>{e.name}</strong><span style={{color:"var(--text-muted)",fontSize:13}}> · {e.occupation||""}</span></div>
-                          <div style={{fontSize:14,marginTop:3}}>{e.text}</div>
-                          <div style={{fontSize:11,color:"var(--text-muted)",marginTop:3,fontStyle:"italic"}}>Source: {e.source}</div>
+                return allEvents.length===0
+                  ? <div className="empty"><p>No dated events to display.</p></div>
+                  : allEvents.map((e,i)=>{
+                    const ym=e.date.slice(0,7);
+                    const [yr,mo]=ym.split("-");
+                    const monthLabel=`${MONTHS[mo]?.toUpperCase()} ${yr}`;
+                    return (
+                      <div key={i}>
+                        {monthLabel!==prevMonth&&(prevMonth=monthLabel,<div className="activity-month-head">{monthLabel}</div>)}
+                        <div className="activity-row" onClick={()=>setModal(e.person)}>
+                          <div className="activity-date">{e.date_display.replace(", 2026","")}</div>
+                          <div>
+                            <div><strong style={{color:"var(--navy)"}}>{e.name}</strong><span style={{color:"var(--text-muted)",fontSize:13}}> · {e.occupation||""}</span></div>
+                            <div style={{fontSize:14,marginTop:3}}>{e.text}</div>
+                            <div style={{fontSize:11,color:"var(--text-muted)",marginTop:3,fontStyle:"italic"}}>Source: {e.source}</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                });
+                    );
+                  });
               })()}
             </div>
           </div>
@@ -547,7 +610,7 @@ export default function SupportDetails() {
 
       {/* Modal */}
       {modal&&(
-        <div className={`modal-overlay open`} onClick={e=>{if(e.target.className.includes("modal-overlay"))setModal(null);}}>
+        <div className="modal-overlay open" onClick={e=>{if(e.target.className.includes("modal-overlay"))setModal(null);}}>
           <div className="modal">
             <div className="modal-head">
               <button className="modal-close" onClick={()=>setModal(null)}>×</button>
@@ -558,20 +621,17 @@ export default function SupportDetails() {
               <div className="modal-stats">
                 <div className="modal-stat"><div className="modal-stat-label">Touchpoints</div><div className="modal-stat-value">{modal.event_count}</div></div>
                 <div className="modal-stat"><div className="modal-stat-label">Tier</div><div className="modal-stat-value" style={{fontSize:16}}>{modal.tier}</div></div>
-                <div className="modal-stat"><div className="modal-stat-label">Mar/Apr 2026</div><div className="modal-stat-value">{modal.mar_apr_touched?"Yes":"No"}</div></div>
+                <div className="modal-stat"><div className="modal-stat-label">Source</div><div className="modal-stat-value" style={{fontSize:16}}>{modal.source==="union"?"Union Rally":modal.source==="advocates"?"Advocates":modal.sector}</div></div>
               </div>
-              <h3 style={{fontSize:16,color:"var(--navy)",marginBottom:12,letterSpacing:1}}>Engagement Timeline</h3>
+              <h3 style={{fontSize:16,color:"var(--navy)",marginBottom:12,letterSpacing:1}}>Engagement Notes</h3>
               <div className="timeline">
-                {modal.events.slice().sort((a,b)=>(a.date||"9999").localeCompare(b.date||"9999")).map((e,i)=>{
-                  const isFocus=e.date&&(e.date.startsWith("2026-03")||e.date.startsWith("2026-04"));
-                  return (
-                    <div key={i} className={`timeline-event${isFocus?" focus":""}`}>
-                      <span className="timeline-date">{e.date_display}</span>
-                      <span className="timeline-source">via {e.source}</span>
-                      <div className="timeline-text">{e.text}</div>
-                    </div>
-                  );
-                })}
+                {modal.events.slice().sort((a,b)=>(a.date||"9999").localeCompare(b.date||"9999")).map((e,i)=>(
+                  <div key={i} className="timeline-event">
+                    <span className="timeline-date">{e.date_display}</span>
+                    <span className="timeline-source">via {e.source}</span>
+                    <div className="timeline-text">{e.text}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
