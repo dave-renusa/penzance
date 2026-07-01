@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-06-30T18:15:15.659Z",
+  "syncedAt": "2026-07-01T12:34:20.041Z",
   "status": {
-    "lastSync": "June 30, 2026",
+    "lastSync": "July 1, 2026",
     "outlook": "Watch",
     "nextMilestone": ""
   },
@@ -47,7 +47,44 @@
       "progress": 80
     }
   ],
-  "weeklyHighlights": [],
+  "weeklyHighlights": [
+    {
+      "label": "Chamber of Commerce",
+      "value": "1",
+      "detail": "Fredericksburg Chamber event",
+      "color": "#2563eb"
+    },
+    {
+      "label": "City Council Testimony",
+      "value": "1",
+      "detail": "June 23 City Council meeting",
+      "color": "#7c3aed"
+    },
+    {
+      "label": "Letters of Support",
+      "value": "1",
+      "detail": "City Council",
+      "color": "#0891b2"
+    },
+    {
+      "label": "Digital Reach",
+      "value": "1",
+      "detail": "Mailer and project website",
+      "color": "#c2410c"
+    },
+    {
+      "label": "Direct Mail",
+      "value": "1",
+      "detail": "Residents",
+      "color": "#16a34a"
+    },
+    {
+      "label": "Patch-Through Phone Program",
+      "value": "6",
+      "detail": "Council offices; Mayor Devine",
+      "color": "#d97706"
+    }
+  ],
   "patchStats": [],
   "patchOffices": [],
   "digitalMetrics": [],
