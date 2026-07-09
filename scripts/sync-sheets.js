@@ -49,7 +49,8 @@ const TABS = {
   coalition: "Coalition",
   risks: "Risks",
   calendar: "Upcoming Events",
-  media: "Earned Media",
+  media: "Earned Media Outlets",
+  mediaActivity: "Earned Media Activity",
 };
 
 const RETRYABLE_STATUS = new Set([429, 500, 502, 503, 504]);
@@ -103,6 +104,38 @@ function rowsToObjects(rows) {
     );
 }
 
+// The "Earned Media Activity" tab has repeating headers (two "Contact Type",
+// "Note"/"Notes"), so parse it positionally instead of by header name:
+// Date | Outlet | Reporter | Contact Type | Note | Contact Date | Contact Type | Notes
+function parseMediaActivity(rows) {
+  if (!rows.length) return [];
+  const headerIdx = rows.findIndex((r) => r.filter(Boolean).length >= 3);
+  if (headerIdx === -1) return [];
+  return rows
+    .slice(headerIdx + 1)
+    .filter((r) => (r[1] || "").trim()) // must have an outlet
+    .map((r) => {
+      const cell = (i) => (r[i] || "").trim();
+      const note = cell(4);
+      const followUpNote = cell(7);
+      const text = `${note} ${followUpNote}`.toLowerCase();
+      let status = { key: "exploring", label: "Exploring" };
+      if (/respond|provided answ|setting meeting|\bmeeting\b|answered|interview/.test(text)) {
+        status = { key: "engaged", label: "Engaged" };
+      } else if (/no response|left vm|voicemail|waiting/.test(text)) {
+        status = { key: "pending", label: "Awaiting reply" };
+      }
+      return {
+        outlet: cell(1),
+        reporter: cell(2),
+        date: cell(5) || cell(0), // most recent contact date
+        channel: cell(6) || cell(3), // most recent contact type
+        note: followUpNote || note,
+        status,
+      };
+    });
+}
+
 async function main() {
   console.log("Fetching tabs from Google Sheets…");
   const token = await getAccessToken();
@@ -118,6 +151,7 @@ async function main() {
     riskRows,
     calRows,
     mediaRows,
+    mediaActivityRows,
   ] = await Promise.all([
     fetchTab(TABS.kpis, token),
     fetchTab(TABS.highlights, token),
@@ -129,6 +163,7 @@ async function main() {
     fetchTab(TABS.risks, token),
     fetchTab(TABS.calendar, token),
     fetchTab(TABS.media, token),
+    fetchTab(TABS.mediaActivity, token),
   ]);
 
   const kpisRaw = rowsToObjects(kpiRows);
@@ -141,6 +176,7 @@ async function main() {
   const risksRaw = rowsToObjects(riskRows);
   const calendarRaw = rowsToObjects(calRows);
   const mediaRaw = rowsToObjects(mediaRows);
+  const mediaActivity = parseMediaActivity(mediaActivityRows);
 
   // ── Transform each section to the shape the dashboard expects ──
 
@@ -253,6 +289,7 @@ async function main() {
     risks,
     events,
     mediaTargets,
+    mediaActivity,
   };
 
   const fs = await import("fs");

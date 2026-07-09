@@ -10,6 +10,7 @@ const {
   risks,
   events,
   mediaTargets,
+  mediaActivity = [],
 } = rawData;
 
 const { highlights: weeklyHighlights, digitalMetrics, patchStats, patchOffices } = weeklyBrief;
@@ -303,7 +304,7 @@ export default function GatewayPage() {
               <p className="eyebrow">Earned media</p>
               <h2>Priority Media Targets</h2>
             </div>
-            <span className="subtle">14 total contacts</span>
+            <span className="subtle">{mediaTargets.length} total contacts</span>
           </div>
           <div className="media-table">
             <div className="media-row header">
@@ -321,6 +322,42 @@ export default function GatewayPage() {
           </div>
         </div>
       </section>
+
+      {mediaActivity.length > 0 && (
+        <section className="shell lower-grid">
+          <div className="panel span-12">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">Earned media</p>
+                <h2>Media Outreach Tracker</h2>
+              </div>
+              <span className="subtle">{mediaActivity.length} outlets in progress</span>
+            </div>
+            <div className="media-table outreach-table">
+              <div className="media-row outreach-row header">
+                <span>Outlet</span>
+                <span>Reporter</span>
+                <span>Status</span>
+                <span>Latest update</span>
+              </div>
+              {mediaActivity.map((m) => (
+                <div className="media-row outreach-row" key={m.outlet}>
+                  <strong>{m.outlet}</strong>
+                  <span>{m.reporter || "—"}</span>
+                  <span>
+                    <em className={`otag otag-${m.status.key}`}>{m.status.label}</em>
+                  </span>
+                  <span>
+                    {m.date ? <b>{m.date}</b> : null}
+                    {m.date && m.note ? " · " : null}
+                    {m.note || (m.date ? "" : "—")}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <style>{`
         :root {
@@ -563,6 +600,10 @@ export default function GatewayPage() {
 
         .span-8 {
           grid-column: span 8;
+        }
+
+        .span-12 {
+          grid-column: span 12;
         }
 
         .section-head {
@@ -1033,6 +1074,42 @@ export default function GatewayPage() {
 
         .media-row strong {
           color: var(--ink);
+        }
+
+        .outreach-row {
+          grid-template-columns: 1.3fr 1fr 0.9fr 2.2fr;
+          align-items: center;
+        }
+
+        .outreach-row span b {
+          color: var(--ink);
+          font-weight: 700;
+        }
+
+        .otag {
+          display: inline-block;
+          padding: 3px 9px;
+          border-radius: 999px;
+          font-size: 11px;
+          font-style: normal;
+          font-weight: 800;
+          letter-spacing: 0.02em;
+          white-space: nowrap;
+        }
+
+        .otag-engaged {
+          background: #dcfce7;
+          color: #15803d;
+        }
+
+        .otag-pending {
+          background: #fef3c7;
+          color: #b45309;
+        }
+
+        .otag-exploring {
+          background: #e0edff;
+          color: #1d4ed8;
         }
 
         @media (max-width: 1100px) {
