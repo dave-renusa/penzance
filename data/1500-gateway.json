@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-07-09T14:09:08.794Z",
+  "syncedAt": "2026-07-09T14:40:10.259Z",
   "status": {
     "lastSync": "July 9, 2026",
     "outlook": "Watch",
@@ -245,5 +245,166 @@
       "detail": ""
     }
   ],
-  "mediaTargets": []
+  "mediaTargets": [
+    [
+      "The Free Lance-Star",
+      "Newspaper/Digital",
+      "Daily (14k+ circ.)"
+    ],
+    [
+      "Fredericksburg Free Press",
+      "Online News",
+      "Local (9k+ subs)"
+    ],
+    [
+      "Potomac Local News",
+      "Online News",
+      "Regional (Stafford/PWC)"
+    ],
+    [
+      "InsideNoVa",
+      "Digital/Print",
+      "Northern Virginia"
+    ],
+    [
+      "Virginia Business",
+      "Magazine/Digital",
+      "Statewide (Business)"
+    ],
+    [
+      "Washington Business Journal",
+      "Digital/Print",
+      "Regional (B2B)"
+    ],
+    [
+      "WFVA / WFLS (Star Radio)",
+      "Radio (News/Talk)",
+      "Local (1230 AM / 93.3 FM)"
+    ],
+    [
+      "WUSA9 / NBC4 / FOX5",
+      "TV (DC Market)",
+      "2.5M+ Households"
+    ],
+    [
+      "Data Center Dynamics",
+      "Digital/Print",
+      ""
+    ],
+    [
+      "Outlet",
+      "Reporter",
+      "Email"
+    ],
+    [
+      "The Free Lance-Star",
+      "Keith Epps",
+      "kepps@freelancestar.com"
+    ],
+    [
+      "Fredericksburg Free Press",
+      "Adele Uphaus",
+      "adele.uphaus@fredericksburgfreepress.com"
+    ],
+    [
+      "Virgina Free Press",
+      "Martin Davis",
+      "Mdavis@virginiafreepress.com"
+    ],
+    [
+      "Potomac Local News",
+      "Uriah Kiser",
+      "ukiser@potomaclocal.com"
+    ]
+  ],
+  "mediaActivity": [
+    {
+      "outlet": "The Free Lance-Star",
+      "reporter": "Keith Epps",
+      "date": "6/29",
+      "channel": "Email",
+      "note": "No response",
+      "status": {
+        "key": "pending",
+        "label": "Awaiting reply"
+      }
+    },
+    {
+      "outlet": "Fredericksburg Free Press",
+      "reporter": "Adele Uphaus",
+      "date": "7/8",
+      "channel": "Email",
+      "note": "Responded to questions asked, provided answers",
+      "status": {
+        "key": "engaged",
+        "label": "Engaged"
+      }
+    },
+    {
+      "outlet": "Virgina Free Press",
+      "reporter": "Martin Davis",
+      "date": "7/2",
+      "channel": "Email",
+      "note": "Setting meeting for 7/9",
+      "status": {
+        "key": "engaged",
+        "label": "Engaged"
+      }
+    },
+    {
+      "outlet": "Potomac Local News",
+      "reporter": "Uriah Kiser",
+      "date": "6/29",
+      "channel": "Email",
+      "note": "Gently reaching out",
+      "status": {
+        "key": "exploring",
+        "label": "Exploring"
+      }
+    },
+    {
+      "outlet": "FXGB Advance",
+      "reporter": "Steve Watkins",
+      "date": "7/2",
+      "channel": "Call",
+      "note": "Left VM",
+      "status": {
+        "key": "pending",
+        "label": "Awaiting reply"
+      }
+    },
+    {
+      "outlet": "WBJ",
+      "reporter": "Dan Sernovitz",
+      "date": "",
+      "channel": "",
+      "note": "waiting",
+      "status": {
+        "key": "pending",
+        "label": "Awaiting reply"
+      }
+    },
+    {
+      "outlet": "Patch",
+      "reporter": "",
+      "date": "",
+      "channel": "",
+      "note": "Will explore",
+      "status": {
+        "key": "exploring",
+        "label": "Exploring"
+      }
+    },
+    {
+      "outlet": "The Weekly Ringer (UMW)",
+      "reporter": "",
+      "date": "",
+      "channel": "",
+      "note": "Will explore",
+      "status": {
+        "key": "exploring",
+        "label": "Exploring"
+      }
+    }
+  ]
 }
