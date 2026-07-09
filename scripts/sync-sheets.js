@@ -133,60 +133,71 @@ function parseMediaActivity(rows) {
     });
 }
 
-// The "Activity Tracker" tab drives the whole Community Engagement Pulse. It's a
-// single tab with a Section column so all four blocks + the header live together:
-//   Section | Label | Value | Detail
-//   Header    | Week Of      | June 23, 2026 |
-//   Header    | Patch Rate   | 16.9%         |
-//   Highlight | Chamber…     | 12   | Key influencers engaged…   (Detail = description)
-//   Digital   | Page Views   | 101  |
-//   Phone     | Dials        | 15034|
-//   Office    | Mayor Devine | 24   | 6                          (Value = live, Detail = voicemail)
-// Returns null when the tab is missing/empty so the page falls back to the static brief.
-function parseActivityTracker(rows) {
+// Color per activity Type — matches the seed in data/new-this-week.json. Returns
+// { accent (tile bar), tint (chip bg), text (chip text) }.
+function typeStyle(type) {
+  const t = type.toLowerCase();
+  if (t.includes("email")) return { accent: "#2563eb", tint: "#e6f1fb", text: "#0c447c" };
+  if (t.includes("phone") || t.includes("call")) return { accent: "#0f766e", tint: "#e1f5ee", text: "#085041" };
+  if (t.includes("1:1") || t.includes("meeting")) return { accent: "#b45309", tint: "#faeeda", text: "#633806" };
+  if (t.includes("text")) return { accent: "#7c3aed", tint: "#eeedfe", text: "#3c3489" };
+  if (t.includes("hearing")) return { accent: "#b91c1c", tint: "#faece7", text: "#712b13" };
+  if (t.includes("group")) return { accent: "#be185d", tint: "#fbeaf0", text: "#72243e" };
+  return { accent: "#475569", tint: "#eef2f7", text: "#334155" };
+}
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+// Sortable key from an M/D/YYYY date string; 0 for unparseable dates.
+function dateKey(d) {
+  const m = d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+  if (!m) return 0;
+  const [, mo, day, yr] = m;
+  const year = yr.length === 2 ? 2000 + Number(yr) : Number(yr);
+  return year * 10000 + Number(mo) * 100 + Number(day);
+}
+
+function formatDate(d) {
+  const m = d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+  if (!m) return d;
+  const [, mo, day, yr] = m;
+  const year = yr.length === 2 ? 2000 + Number(yr) : Number(yr);
+  return `${MONTHS[Number(mo) - 1]} ${Number(day)}, ${year}`;
+}
+
+// The "Activity Tracker" tab is a running engagement log, one row per contact:
+//   Date | Type | Stakeholder/Target | Owner | Outcome | Hours | Notes
+// It drives the "New This Week" panel: Type → count tiles, and each row → a
+// contact in the log. Returns null when the tab is missing/empty so the page
+// falls back to the seed in data/new-this-week.json.
+function parseNewThisWeek(rows) {
   if (!rows.length) return null;
   const headerIdx = rows.findIndex((r) => r.filter(Boolean).length >= 3);
   if (headerIdx === -1) return null;
-  const colors = ["#2563eb", "#7c3aed", "#0891b2", "#16a34a", "#d97706"];
-  const pulse = {
-    weekOf: "",
-    patchRate: "",
-    highlights: [],
-    digitalMetrics: [],
-    patchStats: [],
-    patchOffices: [],
-  };
-  let colorIdx = 0;
-  for (const r of rows.slice(headerIdx + 1)) {
-    const cell = (i) => (r[i] || "").trim();
-    const section = cell(0).toLowerCase();
-    const label = cell(1);
-    const value = cell(2);
-    const detail = cell(3);
-    if (!label) continue;
-    if (section.startsWith("header") || section.startsWith("meta")) {
-      const key = label.toLowerCase();
-      if (key.includes("week")) pulse.weekOf = value;
-      else if (key.includes("rate")) pulse.patchRate = value;
-    } else if (section.startsWith("highlight")) {
-      pulse.highlights.push({ label, value, detail, color: colors[colorIdx++ % colors.length] });
-    } else if (section.startsWith("digital")) {
-      pulse.digitalMetrics.push([label, value]);
-    } else if (section.startsWith("phone")) {
-      pulse.patchStats.push([label, value]);
-    } else if (section.startsWith("office")) {
-      const live = Number(value.replace(/[^0-9.]/g, "")) || 0;
-      const voicemail = Number(detail.replace(/[^0-9.]/g, "")) || 0;
-      pulse.patchOffices.push({ office: label, live, voicemail, total: live + voicemail });
-    }
-  }
-  const hasContent =
-    pulse.weekOf ||
-    pulse.highlights.length ||
-    pulse.digitalMetrics.length ||
-    pulse.patchStats.length ||
-    pulse.patchOffices.length;
-  return hasContent ? pulse : null;
+  const data = rows
+    .slice(headerIdx + 1)
+    .map((r) => {
+      const cell = (i) => (r[i] || "").trim();
+      return { date: cell(0), type: cell(1), name: cell(2), outcome: cell(4), notes: cell(6) };
+    })
+    .filter((r) => r.type || r.name);
+  if (!data.length) return null;
+
+  data.sort((a, b) => dateKey(b.date) - dateKey(a.date)); // newest first
+
+  const counts = new Map(); // preserves first-seen order for stable tile order
+  const contacts = data.map((r) => {
+    const s = typeStyle(r.type);
+    counts.set(r.type, (counts.get(r.type) || 0) + 1);
+    return { name: r.name, type: r.type, tint: s.tint, text: s.text, outcome: r.outcome, notes: r.notes, date: r.date };
+  });
+
+  const typeCounts = [...counts.entries()]
+    .map(([label, value]) => ({ label, value, color: typeStyle(label).accent }))
+    .sort((a, b) => b.value - a.value);
+
+  const latest = formatDate(data[0].date);
+  return { latest, total: contacts.length, typeCounts, contacts };
 }
 
 async function main() {
@@ -220,7 +231,7 @@ async function main() {
   const risksRaw = rowsToObjects(riskRows);
   const calendarRaw = rowsToObjects(calRows);
   const mediaActivity = parseMediaActivity(mediaActivityRows);
-  const pulse = parseActivityTracker(activityTrackerRows);
+  const newThisWeek = parseNewThisWeek(activityTrackerRows);
 
   // ── Transform each section to the shape the dashboard expects ──
 
@@ -299,7 +310,7 @@ async function main() {
       nextMilestone: meta.nextMilestone || "",
     },
     kpis,
-    pulse,
+    newThisWeek,
     decisionMakers,
     sentiment,
     coalition,

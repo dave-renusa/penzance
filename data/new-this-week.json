@@ -1,0 +1,236 @@
+{
+  "latest": "July 8, 2026",
+  "total": 22,
+  "typeCounts": [
+    {
+      "label": "Email Outreach",
+      "value": 6,
+      "color": "#2563eb"
+    },
+    {
+      "label": "Phone Call",
+      "value": 5,
+      "color": "#0f766e"
+    },
+    {
+      "label": "Text Outreach",
+      "value": 4,
+      "color": "#7c3aed"
+    },
+    {
+      "label": "1:1 Meeting",
+      "value": 3,
+      "color": "#b45309"
+    },
+    {
+      "label": "Hearing Attended",
+      "value": 2,
+      "color": "#b91c1c"
+    },
+    {
+      "label": "Small Group",
+      "value": 2,
+      "color": "#be185d"
+    }
+  ],
+  "contacts": [
+    {
+      "name": "Fredercksburg Planning Commission",
+      "type": "Hearing Attended",
+      "tint": "#faece7",
+      "text": "#712b13",
+      "outcome": "No one from opposition spoke about 1500 Gateway",
+      "notes": "Watched hearing online",
+      "date": "7/8/2026"
+    },
+    {
+      "name": "Ted Barnes",
+      "type": "Email Outreach",
+      "tint": "#e6f1fb",
+      "text": "#0c447c",
+      "outcome": "Follow-up on community meeting request",
+      "notes": "Send him map on Friday. They are having a community meeting to discuss our proposal to only meet with HOA presidents.",
+      "date": "7/8/2026"
+    },
+    {
+      "name": "Carly Walker, Fredericksburg Chamber of Commerce",
+      "type": "Email Outreach",
+      "tint": "#e6f1fb",
+      "text": "#0c447c",
+      "outcome": "Follow-up on Teacher Appreciation Event and support at meeting",
+      "notes": "",
+      "date": "7/8/2026"
+    },
+    {
+      "name": "James Kissler, IBEW Local 26",
+      "type": "Email Outreach",
+      "tint": "#e6f1fb",
+      "text": "#0c447c",
+      "outcome": "Set meeting for 7/8 to discuss organizing Fredericksburg residents",
+      "notes": "",
+      "date": "7/8/2026"
+    },
+    {
+      "name": "Laurie Webb",
+      "type": "Email Outreach",
+      "tint": "#e6f1fb",
+      "text": "#0c447c",
+      "outcome": "Follow-up on FXBG Fur Ball Gala sponsorship request",
+      "notes": "",
+      "date": "7/8/2026"
+    },
+    {
+      "name": "Fredercksburg School Board",
+      "type": "Hearing Attended",
+      "tint": "#faece7",
+      "text": "#712b13",
+      "outcome": "4 personal touches with school officials",
+      "notes": "Presentation on 1500 Gateway to the Fredericksburg City School Board during public comment; Dr. Wolfenbarger voiced support at the end of the meeting; met with Dr. Wolfenbarger, Superintendent Catlett, Board Member Jarvis Bailey and Clerk of Board Ms. Wilson to thank them.",
+      "date": "7/6/2026"
+    },
+    {
+      "name": "Vice Mayor Frye",
+      "type": "Phone Call",
+      "tint": "#e1f5ee",
+      "text": "#085041",
+      "outcome": "Left message",
+      "notes": "Follow-up on meeting while in town.",
+      "date": "7/6/2026"
+    },
+    {
+      "name": "Martin Davis, Virginia Free Press",
+      "type": "Email Outreach",
+      "tint": "#e6f1fb",
+      "text": "#0c447c",
+      "outcome": "Follow-up meeting set for 7/9",
+      "notes": "",
+      "date": "7/2/2026"
+    },
+    {
+      "name": "Steve Watkins, FXGB Advance",
+      "type": "Phone Call",
+      "tint": "#e1f5ee",
+      "text": "#085041",
+      "outcome": "Awaiting response, left VM",
+      "notes": "",
+      "date": "7/2/2026"
+    },
+    {
+      "name": "Virginia Union Call",
+      "type": "Small Group",
+      "tint": "#fbeaf0",
+      "text": "#72243e",
+      "outcome": "7 major building trade unions joined call to discuss the Aug 25 public hearing",
+      "notes": "",
+      "date": "7/1/2026"
+    },
+    {
+      "name": "VA Connects",
+      "type": "Phone Call",
+      "tint": "#e1f5ee",
+      "text": "#085041",
+      "outcome": "Discussed a proposal to do digital in the Fredericksburg area",
+      "notes": "",
+      "date": "7/1/2026"
+    },
+    {
+      "name": "Council Supporters",
+      "type": "Email Outreach",
+      "tint": "#e6f1fb",
+      "text": "#0c447c",
+      "outcome": "5 thank-you emails sent to supporters who wrote to council",
+      "notes": "",
+      "date": "6/30/2026"
+    },
+    {
+      "name": "Dr. Catlett and Dr. Eberhardt",
+      "type": "Small Group",
+      "tint": "#fbeaf0",
+      "text": "#72243e",
+      "outcome": "School Board request to speak at upcoming meeting was granted",
+      "notes": "Shared the benefits to Fredericksburg City Schools, including the $20mm proffer and $500K to CTE. They didn't want to get ahead of city council and confirmed we're a Fredericksburg business before placing us on the agenda.",
+      "date": "6/30/2026"
+    },
+    {
+      "name": "Phone Patch Supporters",
+      "type": "Text Outreach",
+      "tint": "#eeedfe",
+      "text": "#3c3489",
+      "outcome": "150 thank-you texts to phone-patch supporters",
+      "notes": "",
+      "date": "6/29/2026"
+    },
+    {
+      "name": "Phone Patch Supporters",
+      "type": "Text Outreach",
+      "tint": "#eeedfe",
+      "text": "#3c3489",
+      "outcome": "100 thank-you texts to phone-patch supporters",
+      "notes": "",
+      "date": "6/29/2026"
+    },
+    {
+      "name": "Dr. Cotter, Micah Ecumenical Ministries",
+      "type": "Phone Call",
+      "tint": "#e1f5ee",
+      "text": "#085041",
+      "outcome": "Discussed potential partnership/donation",
+      "notes": "",
+      "date": "6/26/2026"
+    },
+    {
+      "name": "Phone Patch Supporters",
+      "type": "Text Outreach",
+      "tint": "#eeedfe",
+      "text": "#3c3489",
+      "outcome": "50 thank-you texts to phone-patch supporters",
+      "notes": "",
+      "date": "6/26/2026"
+    },
+    {
+      "name": "Ted Barnes",
+      "type": "1:1 Meeting",
+      "tint": "#faeeda",
+      "text": "#633806",
+      "outcome": "Set up dialogue on getting information to Great Oaks neighbors",
+      "notes": "Will talk to the HOA Board about meeting in July; opened discussion of a presentation before the HOA and Fredericksburg Neighborhood Coalition.",
+      "date": "6/25/2026"
+    },
+    {
+      "name": "Vice Mayor Charlie Frye",
+      "type": "1:1 Meeting",
+      "tint": "#faeeda",
+      "text": "#633806",
+      "outcome": "Gave me his cell and asked me to contact him",
+      "notes": "",
+      "date": "6/24/2026"
+    },
+    {
+      "name": "Vice Mayor Charlie Frye",
+      "type": "Text Outreach",
+      "tint": "#eeedfe",
+      "text": "#3c3489",
+      "outcome": "Follow-up from council meeting; sent text",
+      "notes": "",
+      "date": "6/24/2026"
+    },
+    {
+      "name": "Councilmember Finn",
+      "type": "Phone Call",
+      "tint": "#e1f5ee",
+      "text": "#085041",
+      "outcome": "Follow-up from council meeting; left VM and sent text",
+      "notes": "",
+      "date": "6/24/2026"
+    },
+    {
+      "name": "Councilmember Finn",
+      "type": "1:1 Meeting",
+      "tint": "#faeeda",
+      "text": "#633806",
+      "outcome": "Gave me his business card and introduced me to the Great Oaks HOA president",
+      "notes": "",
+      "date": "6/23/2026"
+    }
+  ]
+}

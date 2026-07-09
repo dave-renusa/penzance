@@ -1,5 +1,5 @@
 import rawData from "@/data/1500-gateway.json";
-import weeklyBrief from "@/data/weekly-brief.json";
+import newThisWeekSeed from "@/data/new-this-week.json";
 
 const {
   status,
@@ -12,18 +12,12 @@ const {
   mediaActivity = [],
 } = rawData;
 
-// The Community Engagement Pulse is driven by the "Activity Tracker" sheet tab
-// (rawData.pulse). Until that tab exists, fall back to the static weekly brief so
-// the panel never goes blank during the switchover.
-const pulse = rawData.pulse && rawData.pulse.highlights?.length ? rawData.pulse : weeklyBrief;
-const {
-  highlights: weeklyHighlights = [],
-  digitalMetrics = [],
-  patchStats = [],
-  patchOffices = [],
-  weekOf,
-  patchRate,
-} = pulse;
+// "New This Week" is driven by the "Activity Tracker" sheet tab (rawData.newThisWeek).
+// Until that tab exists, fall back to the seed so the panel never goes blank.
+const newThisWeek =
+  rawData.newThisWeek && rawData.newThisWeek.contacts?.length
+    ? rawData.newThisWeek
+    : newThisWeekSeed;
 
 function StatusBadge({ value }) {
   const key = value.toLowerCase().replace(/\s+/g, "-");
@@ -45,8 +39,6 @@ function percent(value, total) {
 export default function GatewayPage() {
   const sentimentTotal = sentiment.reduce((sum, item) => sum + item.value, 0);
   const coalitionTotal = coalition.reduce((sum, item) => sum + item.value, 0);
-  const livePatchTotal = patchOffices.reduce((sum, office) => sum + office.live, 0);
-  const voicemailTotal = patchOffices.reduce((sum, office) => sum + office.voicemail, 0);
 
   return (
     <main className="gateway-page">
@@ -89,71 +81,45 @@ export default function GatewayPage() {
         <div className="panel span-8">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Week of {weekOf}</p>
-              <h2>Community Engagement Pulse</h2>
+              <p className="eyebrow">Latest activity · {newThisWeek.latest}</p>
+              <h2>New This Week</h2>
             </div>
-            <div className="rate-pill">{patchRate} patch rate</div>
+            <div className="rate-pill">{newThisWeek.total} contacts</div>
           </div>
 
           <div className="highlight-grid">
-            {weeklyHighlights.map((item) => (
+            {newThisWeek.typeCounts.map((item) => (
               <article className="highlight" key={item.label}>
                 <span style={{ background: item.color }} />
                 <p>{item.label}</p>
                 <strong>{item.value}</strong>
-                <small>{item.detail}</small>
+                <small>{item.value === 1 ? "contact" : "contacts"}</small>
               </article>
             ))}
           </div>
 
-          <div className="split-row">
-            <div className="mini-panel">
-              <h3>Digital reach</h3>
-              <div className="metric-row">
-                {digitalMetrics.map(([label, value]) => (
-                  <div key={label}>
-                    <strong>{value}</strong>
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="contact-log">
+            <div className="contact-row header">
+              <span>Contact</span>
+              <span>Type</span>
+              <span>Outcome</span>
             </div>
-            <div className="mini-panel">
-              <h3>Patch-through phone program</h3>
-              <div className="metric-row compact">
-                {patchStats.map(([label, value]) => (
-                  <div key={label}>
-                    <strong>{value}</strong>
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="office-table">
-            <div className="table-title">
-              <h3>Patches by office</h3>
-              <span>{livePatchTotal} live / {voicemailTotal} voicemail</span>
-            </div>
-            {patchOffices.map((office) => (
-              <div className="office-row" key={office.office}>
-                <strong>{office.office}</strong>
-                <div className="stacked-bar">
-                  <span
-                    className="bar-live"
-                    style={{ width: `${(office.live / office.total) * 100}%` }}
-                  />
-                  <span
-                    className="bar-vm"
-                    style={{ width: `${(office.voicemail / office.total) * 100}%` }}
-                  />
+            <div className="contact-scroll">
+              {newThisWeek.contacts.map((c, i) => (
+                <div className="contact-row" key={`${c.name}-${i}`}>
+                  <strong>{c.name}</strong>
+                  <span>
+                    <em className="type-chip" style={{ background: c.tint, color: c.text }}>
+                      {c.type}
+                    </em>
+                  </span>
+                  <span className="contact-outcome">
+                    {c.outcome}
+                    {c.notes ? <small>{c.notes}</small> : null}
+                  </span>
                 </div>
-                <span>{office.live} live</span>
-                <span>{office.voicemail} VM</span>
-                <b>{office.total}</b>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -624,13 +590,13 @@ export default function GatewayPage() {
 
         .highlight-grid {
           display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
           gap: 12px;
         }
 
         .highlight {
           position: relative;
-          min-height: 166px;
+          min-height: 92px;
           padding: 16px;
           overflow: hidden;
         }
@@ -639,7 +605,7 @@ export default function GatewayPage() {
           display: block;
           width: 36px;
           height: 5px;
-          margin-bottom: 20px;
+          margin-bottom: 14px;
           border-radius: 999px;
         }
 
@@ -664,6 +630,72 @@ export default function GatewayPage() {
           color: var(--muted);
           font-size: 13px;
           line-height: 1.45;
+        }
+
+        .contact-log {
+          margin-top: 16px;
+          border: 1px solid var(--line);
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        .contact-scroll {
+          max-height: 360px;
+          overflow-y: auto;
+        }
+
+        .contact-row {
+          display: grid;
+          grid-template-columns: 1.3fr 0.9fr 2fr;
+          gap: 14px;
+          padding: 11px 14px;
+          border-top: 1px solid #eef2f7;
+          align-items: start;
+          color: var(--muted);
+          font-size: 13px;
+        }
+
+        .contact-row.header {
+          position: sticky;
+          top: 0;
+          border-top: 0;
+          background: var(--navy);
+          color: #fff;
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+        }
+
+        .contact-row strong {
+          color: var(--ink);
+          font-weight: 700;
+          line-height: 1.35;
+        }
+
+        .type-chip {
+          display: inline-block;
+          padding: 2px 9px;
+          border-radius: 999px;
+          font-size: 11px;
+          font-style: normal;
+          font-weight: 800;
+          letter-spacing: 0.01em;
+          white-space: nowrap;
+        }
+
+        .contact-outcome {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          color: var(--ink);
+          line-height: 1.4;
+        }
+
+        .contact-outcome small {
+          color: var(--muted);
+          font-size: 12px;
+          line-height: 1.4;
         }
 
         .split-row {
@@ -1151,7 +1183,8 @@ export default function GatewayPage() {
           }
 
           .risk-item,
-          .media-row {
+          .media-row,
+          .contact-row {
             grid-template-columns: 1fr;
           }
 
