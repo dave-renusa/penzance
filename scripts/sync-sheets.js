@@ -49,7 +49,6 @@ const TABS = {
   coalition: "Coalition",
   risks: "Risks",
   calendar: "Upcoming Events",
-  media: "Earned Media Outlets",
   mediaActivity: "Earned Media Activity",
 };
 
@@ -150,7 +149,6 @@ async function main() {
     coalitionRows,
     riskRows,
     calRows,
-    mediaRows,
     mediaActivityRows,
   ] = await Promise.all([
     fetchTab(TABS.kpis, token),
@@ -162,7 +160,6 @@ async function main() {
     fetchTab(TABS.coalition, token),
     fetchTab(TABS.risks, token),
     fetchTab(TABS.calendar, token),
-    fetchTab(TABS.media, token),
     fetchTab(TABS.mediaActivity, token),
   ]);
 
@@ -175,7 +172,6 @@ async function main() {
   const coalitionRaw = rowsToObjects(coalitionRows);
   const risksRaw = rowsToObjects(riskRows);
   const calendarRaw = rowsToObjects(calRows);
-  const mediaRaw = rowsToObjects(mediaRows);
   const mediaActivity = parseMediaActivity(mediaActivityRows);
 
   // ── Transform each section to the shape the dashboard expects ──
@@ -262,12 +258,6 @@ async function main() {
     detail: r["Status / Detail"] || "",
   }));
 
-  const mediaTargets = mediaRaw.map((r) => [
-    r["Outlet"] || "",
-    r["Type"] || "",
-    r["Reach (est.)"] || "",
-  ]);
-
   // ── Status header metadata (pulled from KPIs sheet row 0 or a meta tab) ──
   const meta = kpisRaw[0] || {};
 
@@ -288,7 +278,6 @@ async function main() {
     coalition,
     risks,
     events,
-    mediaTargets,
     mediaActivity,
   };
 

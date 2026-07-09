@@ -9,7 +9,6 @@ const {
   coalition,
   risks,
   events,
-  mediaTargets,
   mediaActivity = [],
 } = rawData;
 
@@ -298,34 +297,8 @@ export default function GatewayPage() {
           </div>
         </div>
 
-        <div className="panel span-7">
-          <div className="section-head">
-            <div>
-              <p className="eyebrow">Earned media</p>
-              <h2>Priority Media Targets</h2>
-            </div>
-            <span className="subtle">{mediaTargets.length} total contacts</span>
-          </div>
-          <div className="media-table">
-            <div className="media-row header">
-              <span>Outlet</span>
-              <span>Type</span>
-              <span>Reach</span>
-            </div>
-            {mediaTargets.map(([outlet, type, reach]) => (
-              <div className="media-row" key={outlet}>
-                <strong>{outlet}</strong>
-                <span>{type}</span>
-                <span>{reach}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {mediaActivity.length > 0 && (
-        <section className="shell lower-grid">
-          <div className="panel span-12">
+        {mediaActivity.length > 0 && (
+          <div className="panel span-7">
             <div className="section-head">
               <div>
                 <p className="eyebrow">Earned media</p>
@@ -356,8 +329,8 @@ export default function GatewayPage() {
               ))}
             </div>
           </div>
-        </section>
-      )}
+        )}
+      </section>
 
       <style>{`
         :root {
@@ -600,10 +573,6 @@ export default function GatewayPage() {
 
         .span-8 {
           grid-column: span 8;
-        }
-
-        .span-12 {
-          grid-column: span 12;
         }
 
         .section-head {
