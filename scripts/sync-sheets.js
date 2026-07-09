@@ -69,7 +69,13 @@ async function fetchTab(tabName, token, attempts = 4) {
         return json.values || [];
       }
       const text = await res.text();
-      // Fail fast on non-transient responses like 403/404; retry 429/5xx
+      // A renamed/deleted tab returns 400 "Unable to parse range". Don't fail the
+      // whole sync over one missing tab — log it and treat the tab as empty.
+      if (res.status === 400 && /unable to parse range/i.test(text)) {
+        console.warn(`  ⚠ tab "${tabName}" not found in the sheet — skipping (treated as empty)`);
+        return [];
+      }
+      // Fail fast on other non-transient responses like 403/404; retry 429/5xx
       retryable = RETRYABLE_STATUS.has(res.status);
       lastErr = new Error(`Failed to fetch tab "${tabName}": ${res.status} ${text}`);
     } catch (err) {
