@@ -12,7 +12,18 @@ const {
   mediaActivity = [],
 } = rawData;
 
-const { highlights: weeklyHighlights, digitalMetrics, patchStats, patchOffices } = weeklyBrief;
+// The Community Engagement Pulse is driven by the "Activity Tracker" sheet tab
+// (rawData.pulse). Until that tab exists, fall back to the static weekly brief so
+// the panel never goes blank during the switchover.
+const pulse = rawData.pulse && rawData.pulse.highlights?.length ? rawData.pulse : weeklyBrief;
+const {
+  highlights: weeklyHighlights = [],
+  digitalMetrics = [],
+  patchStats = [],
+  patchOffices = [],
+  weekOf,
+  patchRate,
+} = pulse;
 
 function StatusBadge({ value }) {
   const key = value.toLowerCase().replace(/\s+/g, "-");
@@ -78,10 +89,10 @@ export default function GatewayPage() {
         <div className="panel span-8">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Week of June 23, 2026</p>
+              <p className="eyebrow">Week of {weekOf}</p>
               <h2>Community Engagement Pulse</h2>
             </div>
-            <div className="rate-pill">16.9% patch rate</div>
+            <div className="rate-pill">{patchRate} patch rate</div>
           </div>
 
           <div className="highlight-grid">

@@ -41,9 +41,7 @@ async function getAccessToken() {
 // Tab names in the Google Sheet — update these to match your actual tab names
 const TABS = {
   kpis: "KPI Targets",
-  highlights: "Activity Log",
-  phone: "Activity Log",
-  digital: "Activity Log",
+  activityTracker: "Activity Tracker",
   decisionMakers: "Decision Makers",
   sentiment: "Sentiment Trend",
   coalition: "Coalition",
@@ -135,15 +133,69 @@ function parseMediaActivity(rows) {
     });
 }
 
+// The "Activity Tracker" tab drives the whole Community Engagement Pulse. It's a
+// single tab with a Section column so all four blocks + the header live together:
+//   Section | Label | Value | Detail
+//   Header    | Week Of      | June 23, 2026 |
+//   Header    | Patch Rate   | 16.9%         |
+//   Highlight | Chamber…     | 12   | Key influencers engaged…   (Detail = description)
+//   Digital   | Page Views   | 101  |
+//   Phone     | Dials        | 15034|
+//   Office    | Mayor Devine | 24   | 6                          (Value = live, Detail = voicemail)
+// Returns null when the tab is missing/empty so the page falls back to the static brief.
+function parseActivityTracker(rows) {
+  if (!rows.length) return null;
+  const headerIdx = rows.findIndex((r) => r.filter(Boolean).length >= 3);
+  if (headerIdx === -1) return null;
+  const colors = ["#2563eb", "#7c3aed", "#0891b2", "#16a34a", "#d97706"];
+  const pulse = {
+    weekOf: "",
+    patchRate: "",
+    highlights: [],
+    digitalMetrics: [],
+    patchStats: [],
+    patchOffices: [],
+  };
+  let colorIdx = 0;
+  for (const r of rows.slice(headerIdx + 1)) {
+    const cell = (i) => (r[i] || "").trim();
+    const section = cell(0).toLowerCase();
+    const label = cell(1);
+    const value = cell(2);
+    const detail = cell(3);
+    if (!label) continue;
+    if (section.startsWith("header") || section.startsWith("meta")) {
+      const key = label.toLowerCase();
+      if (key.includes("week")) pulse.weekOf = value;
+      else if (key.includes("rate")) pulse.patchRate = value;
+    } else if (section.startsWith("highlight")) {
+      pulse.highlights.push({ label, value, detail, color: colors[colorIdx++ % colors.length] });
+    } else if (section.startsWith("digital")) {
+      pulse.digitalMetrics.push([label, value]);
+    } else if (section.startsWith("phone")) {
+      pulse.patchStats.push([label, value]);
+    } else if (section.startsWith("office")) {
+      const live = Number(value.replace(/[^0-9.]/g, "")) || 0;
+      const voicemail = Number(detail.replace(/[^0-9.]/g, "")) || 0;
+      pulse.patchOffices.push({ office: label, live, voicemail, total: live + voicemail });
+    }
+  }
+  const hasContent =
+    pulse.weekOf ||
+    pulse.highlights.length ||
+    pulse.digitalMetrics.length ||
+    pulse.patchStats.length ||
+    pulse.patchOffices.length;
+  return hasContent ? pulse : null;
+}
+
 async function main() {
   console.log("Fetching tabs from Google Sheets…");
   const token = await getAccessToken();
 
   const [
     kpiRows,
-    highlightRows,
-    phoneRows,
-    digitalRows,
+    activityTrackerRows,
     dmRows,
     sentimentRows,
     coalitionRows,
@@ -152,9 +204,7 @@ async function main() {
     mediaActivityRows,
   ] = await Promise.all([
     fetchTab(TABS.kpis, token),
-    fetchTab(TABS.highlights, token),
-    fetchTab(TABS.phone, token),
-    fetchTab(TABS.digital, token),
+    fetchTab(TABS.activityTracker, token),
     fetchTab(TABS.decisionMakers, token),
     fetchTab(TABS.sentiment, token),
     fetchTab(TABS.coalition, token),
@@ -164,15 +214,13 @@ async function main() {
   ]);
 
   const kpisRaw = rowsToObjects(kpiRows);
-  const highlightsRaw = rowsToObjects(highlightRows);
-  const phoneRaw = rowsToObjects(phoneRows);
-  const digitalRaw = rowsToObjects(digitalRows);
   const decisionMakersRaw = rowsToObjects(dmRows);
   const sentimentRaw = rowsToObjects(sentimentRows);
   const coalitionRaw = rowsToObjects(coalitionRows);
   const risksRaw = rowsToObjects(riskRows);
   const calendarRaw = rowsToObjects(calRows);
   const mediaActivity = parseMediaActivity(mediaActivityRows);
+  const pulse = parseActivityTracker(activityTrackerRows);
 
   // ── Transform each section to the shape the dashboard expects ──
 
@@ -194,24 +242,6 @@ async function main() {
     const progress = targetNum > 0 ? Math.min(100, Math.round((valueNum / targetNum) * 100)) : 0;
     return { label, value, target: `Target ${target}`, status, accent: kpiAccents[label] || "#2563eb", progress };
   });
-
-  // Activity Log: group by Type for highlights; count unique types for digital metrics
-  const activityTypes = [...new Set(highlightsRaw.map((r) => r["Type"]).filter(Boolean))];
-  const weeklyHighlights = activityTypes.map((type, i) => {
-    const rows = highlightsRaw.filter((r) => r["Type"] === type);
-    const colors = ["#2563eb", "#7c3aed", "#0891b2", "#c2410c", "#16a34a", "#d97706"];
-    return {
-      label: type,
-      value: String(rows.length),
-      detail: rows.map((r) => r["Stakeholder/Target"] || r["Notes"]).filter(Boolean).slice(0, 2).join("; ") || "",
-      color: colors[i % colors.length],
-    };
-  });
-
-  // patchStats and patchOffices not in this sheet — keep empty
-  const patchStats = [];
-  const patchOffices = [];
-  const digitalMetrics = [];
 
   const decisionMakers = decisionMakersRaw.map((r) => ({
     initials: r["Initials"] || "",
@@ -269,10 +299,7 @@ async function main() {
       nextMilestone: meta.nextMilestone || "",
     },
     kpis,
-    weeklyHighlights,
-    patchStats,
-    patchOffices,
-    digitalMetrics,
+    pulse,
     decisionMakers,
     sentiment,
     coalition,
