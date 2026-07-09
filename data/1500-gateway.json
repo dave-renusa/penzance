@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-07-09T14:52:27.954Z",
+  "syncedAt": "2026-07-09T15:17:27.535Z",
   "status": {
     "lastSync": "July 9, 2026",
     "outlook": "Watch",
@@ -47,59 +47,7 @@
       "progress": 80
     }
   ],
-  "weeklyHighlights": [
-    {
-      "label": "Chamber of Commerce",
-      "value": "1",
-      "detail": "Fredericksburg Chamber event",
-      "color": "#2563eb"
-    },
-    {
-      "label": "City Council Testimony",
-      "value": "1",
-      "detail": "June 23 City Council meeting",
-      "color": "#7c3aed"
-    },
-    {
-      "label": "Letters of Support",
-      "value": "1",
-      "detail": "City Council",
-      "color": "#0891b2"
-    },
-    {
-      "label": "Digital Reach",
-      "value": "1",
-      "detail": "Mailer and project website",
-      "color": "#c2410c"
-    },
-    {
-      "label": "Direct Mail",
-      "value": "1",
-      "detail": "Residents",
-      "color": "#16a34a"
-    },
-    {
-      "label": "Patch-Through Phone Program",
-      "value": "6",
-      "detail": "Council offices; Mayor Devine",
-      "color": "#d97706"
-    },
-    {
-      "label": "1:1 Meeting",
-      "value": "2",
-      "detail": "Vice Mayor Charlie Frye; Councilmember Finn",
-      "color": "#2563eb"
-    },
-    {
-      "label": "Email Outreach",
-      "value": "1",
-      "detail": "Union Rally Attendees",
-      "color": "#7c3aed"
-    }
-  ],
-  "patchStats": [],
-  "patchOffices": [],
-  "digitalMetrics": [],
+  "pulse": null,
   "decisionMakers": [
     {
       "initials": "KD",
@@ -141,7 +89,7 @@
       "initials": "JC",
       "name": "Joy Crump",
       "role": "Ward 2",
-      "position": "Neutral",
+      "position": "Oppose",
       "touches": 1,
       "influence": "Ward 2",
       "note": "Understands business issues \nDoes not want to raise taxes.\nInfluences: LABOR / CHAMBER\nEmail: jycrump@fredericksburgva.gov"
