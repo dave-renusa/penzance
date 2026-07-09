@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-07-09T14:40:10.259Z",
+  "syncedAt": "2026-07-09T14:52:27.954Z",
   "status": {
     "lastSync": "July 9, 2026",
     "outlook": "Watch",
@@ -227,12 +227,6 @@
   ],
   "events": [
     {
-      "date": "7/6/2026",
-      "title": "Fredericksburg School Board",
-      "type": "Hearing",
-      "detail": "Public comment open"
-    },
-    {
       "date": "7/14/2026",
       "title": "Fredericksburg City Council",
       "type": "Hearing",
@@ -244,78 +238,6 @@
       "type": "Public Hearing",
       "detail": ""
     }
-  ],
-  "mediaTargets": [
-    [
-      "The Free Lance-Star",
-      "Newspaper/Digital",
-      "Daily (14k+ circ.)"
-    ],
-    [
-      "Fredericksburg Free Press",
-      "Online News",
-      "Local (9k+ subs)"
-    ],
-    [
-      "Potomac Local News",
-      "Online News",
-      "Regional (Stafford/PWC)"
-    ],
-    [
-      "InsideNoVa",
-      "Digital/Print",
-      "Northern Virginia"
-    ],
-    [
-      "Virginia Business",
-      "Magazine/Digital",
-      "Statewide (Business)"
-    ],
-    [
-      "Washington Business Journal",
-      "Digital/Print",
-      "Regional (B2B)"
-    ],
-    [
-      "WFVA / WFLS (Star Radio)",
-      "Radio (News/Talk)",
-      "Local (1230 AM / 93.3 FM)"
-    ],
-    [
-      "WUSA9 / NBC4 / FOX5",
-      "TV (DC Market)",
-      "2.5M+ Households"
-    ],
-    [
-      "Data Center Dynamics",
-      "Digital/Print",
-      ""
-    ],
-    [
-      "Outlet",
-      "Reporter",
-      "Email"
-    ],
-    [
-      "The Free Lance-Star",
-      "Keith Epps",
-      "kepps@freelancestar.com"
-    ],
-    [
-      "Fredericksburg Free Press",
-      "Adele Uphaus",
-      "adele.uphaus@fredericksburgfreepress.com"
-    ],
-    [
-      "Virgina Free Press",
-      "Martin Davis",
-      "Mdavis@virginiafreepress.com"
-    ],
-    [
-      "Potomac Local News",
-      "Uriah Kiser",
-      "ukiser@potomaclocal.com"
-    ]
   ],
   "mediaActivity": [
     {
