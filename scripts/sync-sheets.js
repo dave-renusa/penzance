@@ -52,17 +52,35 @@ const TABS = {
   media: "Earned Media",
 };
 
-async function fetchTab(tabName, token) {
+const RETRYABLE_STATUS = new Set([429, 500, 502, 503, 504]);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function fetchTab(tabName, token, attempts = 4) {
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tabName)}`;
-  const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Failed to fetch tab "${tabName}": ${res.status} ${text}`);
+  let lastErr;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    let retryable = true; // network/fetch errors are transient — retry them
+    try {
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.values || [];
+      }
+      const text = await res.text();
+      // Fail fast on non-transient responses like 403/404; retry 429/5xx
+      retryable = RETRYABLE_STATUS.has(res.status);
+      lastErr = new Error(`Failed to fetch tab "${tabName}": ${res.status} ${text}`);
+    } catch (err) {
+      lastErr = err;
+    }
+    if (!retryable || attempt === attempts) break;
+    const backoff = 500 * 2 ** (attempt - 1); // 0.5s, 1s, 2s
+    console.warn(`  ⚠ tab "${tabName}" attempt ${attempt}/${attempts} failed, retrying in ${backoff}ms…`);
+    await sleep(backoff);
   }
-  const json = await res.json();
-  return json.values || [];
+  throw lastErr;
 }
 
 function rowsToObjects(rows) {
