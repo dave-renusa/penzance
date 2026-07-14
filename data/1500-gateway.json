@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-07-14T18:22:36.743Z",
+  "syncedAt": "2026-07-14T18:30:24.900Z",
   "status": {
     "lastSync": "July 14, 2026",
     "outlook": "Watch",
@@ -289,7 +289,7 @@
       "name": "Kerry Devine",
       "role": "Mayor",
       "position": "Neutral",
-      "touches": 5,
+      "touches": 0,
       "influence": "Mayor",
       "note": "Could be influenced by the support the project would generate for education. \nWants a new wastewater plant and a new school for the city \nDoes not want to raise taxes. \nCould be more influenced if water is recycled \nSupportive of new forms of revenue for the city.\nInfluences: EDUCATION / CHAMBER\nEmail: kpdevine@fredericksburgva.gov"
     },
@@ -298,7 +298,7 @@
       "name": "Will Mackintosh",
       "role": "At-Large",
       "position": "Lean Oppose",
-      "touches": 3,
+      "touches": 0,
       "influence": "At-Large",
       "note": "Unions can influence him. \nWater has been a major concern.\nInfluences: LABOR\nEmail: wbmackintosh@fredericksburgva.gov"
     },
@@ -307,7 +307,7 @@
       "name": "Jannan Holmes",
       "role": "At-Large",
       "position": "Lean Oppose",
-      "touches": 4,
+      "touches": 0,
       "influence": "At-Large",
       "note": "Former school board member and will value educational funding. \nMay follow Will McIntosh’s position.\nInfluences: EDUCATION\nEmail: jwholmes@fredericksburgva.gov"
     },
@@ -315,8 +315,8 @@
       "initials": "MR",
       "name": "Matt Rowe",
       "role": "Ward 1",
-      "position": "Neutral",
-      "touches": 2,
+      "position": "Oppose",
+      "touches": 0,
       "influence": "Ward 1",
       "note": "Active Democrat and can be influenced by local Democrats.  \nEnvironmentalist and also would be attracted by funding for education. \nFormer school board member, like Holmes.\nInfluences: EDUCATION / LABOR\nEmail: mdrowe@fredericksburgva.gov"
     },
@@ -325,7 +325,7 @@
       "name": "Joy Crump",
       "role": "Ward 2",
       "position": "Oppose",
-      "touches": 3,
+      "touches": 0,
       "influence": "Ward 2",
       "note": "Understands business issues \nDoes not want to raise taxes.\nInfluences: LABOR / CHAMBER\nEmail: jycrump@fredericksburgva.gov"
     },
@@ -334,7 +334,7 @@
       "name": "Susanna Finn",
       "role": "Ward 3",
       "position": "Neutral",
-      "touches": 6,
+      "touches": 0,
       "influence": "Ward 3",
       "note": "Workforce housing is a priority.\nHer district\nInfluences: LABOR\nEmail: srfinn@fredericksburgva.gov"
     },
@@ -343,7 +343,7 @@
       "name": "Charlie Frye",
       "role": "Vice Mayor",
       "position": "Support",
-      "touches": 8,
+      "touches": 0,
       "influence": "Ward 4, Vice Mayor",
       "note": "Would be influenced by employment opportunities and funding for education. \nMember of the Teamsters Union.\nInfluences: LABOR\nEmail: clfrye@fredericksburgva.gov"
     }
