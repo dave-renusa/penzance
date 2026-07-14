@@ -167,7 +167,7 @@ export default function GatewayPage() {
             <h2>Decision-Maker Status</h2>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
-            <span className="subtle">25 tracked touches</span>
+            <span className="subtle">{decisionMakers.reduce((sum, p) => sum + (p.touches || 0), 0)} tracked touches</span>
             <a href="/1500-gateway/powermap" style={{fontSize:12,fontWeight:700,color:"#fff",background:"var(--teal,#0f766e)",padding:"5px 14px",borderRadius:6,textDecoration:"none",letterSpacing:".04em",whiteSpace:"nowrap"}}>Power Map</a>
           </div>
         </div>
@@ -188,6 +188,11 @@ export default function GatewayPage() {
                 <span>{person.influence}</span>
               </div>
               <p className="decision-note">{person.note}</p>
+              {person.lastContact ? (
+                <p style={{ margin: "10px 0 0", fontSize: 11, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", color: "#94a3b8" }}>
+                  Last contact · {person.lastContact}
+                </p>
+              ) : null}
             </article>
           ))}
         </div>

@@ -254,12 +254,26 @@ async function main() {
     return { label, value, target: `Target ${target}`, status, accent: kpiAccents[label] || "#2563eb", progress };
   });
 
+  // Match a column by any of several header names, tolerant of case and stray
+  // whitespace/line-breaks in the header cell (e.g. "Contacts\nMade").
+  const pickCol = (row, ...names) => {
+    for (const n of names) if ((row[n] || "").trim()) return row[n].trim();
+    const norm = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
+    const wanted = names.map(norm);
+    for (const [k, v] of Object.entries(row)) {
+      if (wanted.includes(norm(k)) && (v || "").trim()) return v.trim();
+    }
+    return "";
+  };
+
   const decisionMakers = decisionMakersRaw.map((r) => ({
     initials: r["Initials"] || "",
     name: r["Name"] || "",
     role: r["Role"] || r["District/Body"] || "",
     position: r["Position"] || "",
-    touches: Number(r["Meetings Held"] || 0),
+    // "Contacts Made" is the current column; "Meetings Held" was the old name.
+    touches: Number((pickCol(r, "Contacts Made", "Meetings Held") || "0").replace(/[^0-9.]/g, "") || 0),
+    lastContact: formatDate(pickCol(r, "Last Contact")),
     influence: r["District/Body"] || "",
     note: r["Key Concerns / Notes"] || "",
   }));
