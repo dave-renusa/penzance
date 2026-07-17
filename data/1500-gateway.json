@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-07-16T11:40:08.916Z",
+  "syncedAt": "2026-07-17T11:22:30.774Z",
   "status": {
-    "lastSync": "July 16, 2026",
+    "lastSync": "July 17, 2026",
     "outlook": "Watch",
     "nextMilestone": ""
   },
@@ -48,12 +48,12 @@
     }
   ],
   "newThisWeek": {
-    "latest": "July 8, 2026",
-    "total": 22,
+    "latest": "July 9, 2026",
+    "total": 23,
     "typeCounts": [
       {
         "label": "Email Outreach",
-        "value": 6,
+        "value": 7,
         "color": "#2563eb"
       },
       {
@@ -83,6 +83,15 @@
       }
     ],
     "contacts": [
+      {
+        "name": "Lupe Trejo",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Request to submit LTE to Free-Lance Star",
+        "notes": "",
+        "date": "7/9/2026"
+      },
       {
         "name": "Fredercksburg Planning Commission",
         "type": "Hearing Attended",
