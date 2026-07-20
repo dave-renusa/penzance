@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-07-20T17:42:30.512Z",
+  "syncedAt": "2026-07-20T20:49:49.326Z",
   "status": {
     "lastSync": "July 20, 2026",
     "outlook": "Watch",
@@ -40,11 +40,11 @@
     },
     {
       "label": "Active Risk Items",
-      "value": "4",
+      "value": "3",
       "target": "Target <= 5",
       "status": "On Track",
       "accent": "#dc2626",
-      "progress": 80
+      "progress": 60
     }
   ],
   "newThisWeek": {
@@ -704,7 +704,7 @@
   "sentiment": [
     {
       "label": "Support",
-      "value": 118,
+      "value": 142,
       "color": "#16a34a"
     },
     {
@@ -738,7 +738,7 @@
   "risks": [
     {
       "severity": "High",
-      "title": "Resident quality-of-life opposition",
+      "title": "Neighbors",
       "description": "48 general-opposition stakeholders are tracked in Team Copy, with recurring concerns around noise, forest removal, water, traffic, and quality of life.",
       "mitigation": "Continue direct outreach, document mitigation commitments, and recruit nearby validators."
     },
@@ -750,24 +750,12 @@
     },
     {
       "severity": "Medium",
-      "title": "Social media and transparency narrative",
-      "description": "2 social-media opposition stakeholders are tracked, including Inform Fredericksburg contacts.",
-      "mitigation": "Monitor public claims and keep council-facing answers concise, factual, and sourced."
-    },
-    {
-      "severity": "Medium",
       "title": "Site-adjacent business/access concerns",
       "description": "1 business stakeholder is categorized as opposition, with access and site-adjacent operational concerns to track.",
       "mitigation": "Track access-specific concerns and route site-operation questions to the project team."
     }
   ],
   "events": [
-    {
-      "date": "7/14/2026",
-      "title": "Fredericksburg City Council",
-      "type": "Hearing",
-      "detail": "Get Speakers to this"
-    },
     {
       "date": "8/25/2026",
       "title": "Fredericksburg City Council",
@@ -779,12 +767,12 @@
     {
       "outlet": "The Free Lance-Star",
       "reporter": "Keith Epps",
-      "date": "6/29",
-      "channel": "Email",
-      "note": "No response",
+      "date": "7/20",
+      "channel": "Talked",
+      "note": "Wants to write a story 'once we have submitted'",
       "status": {
-        "key": "pending",
-        "label": "Awaiting reply"
+        "key": "exploring",
+        "label": "Exploring"
       }
     },
     {
