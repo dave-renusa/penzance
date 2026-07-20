@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-07-20T12:17:19.912Z",
+  "syncedAt": "2026-07-20T17:42:30.512Z",
   "status": {
     "lastSync": "July 20, 2026",
     "outlook": "Watch",
@@ -48,28 +48,43 @@
     }
   ],
   "newThisWeek": {
-    "latest": "July 9, 2026",
-    "total": 23,
+    "latest": "July 20, 2026",
+    "total": 56,
     "typeCounts": [
       {
         "label": "Email Outreach",
-        "value": 7,
+        "value": 20,
         "color": "#2563eb"
       },
       {
         "label": "Phone Call",
-        "value": 5,
+        "value": 6,
         "color": "#0f766e"
       },
       {
         "label": "Text Outreach",
-        "value": 4,
+        "value": 6,
         "color": "#7c3aed"
       },
       {
+        "label": "Patch-Through Phone Program",
+        "value": 6,
+        "color": "#0f766e"
+      },
+      {
+        "label": "Small Group",
+        "value": 4,
+        "color": "#be185d"
+      },
+      {
         "label": "1:1 Meeting",
-        "value": 3,
+        "value": 4,
         "color": "#b45309"
+      },
+      {
+        "label": "Advocacy",
+        "value": 2,
+        "color": "#475569"
       },
       {
         "label": "Hearing Attended",
@@ -77,12 +92,100 @@
         "color": "#b91c1c"
       },
       {
-        "label": "Small Group",
-        "value": 2,
-        "color": "#be185d"
+        "label": "Meeting",
+        "value": 1,
+        "color": "#b45309"
+      },
+      {
+        "label": "Chamber of Commerce",
+        "value": 1,
+        "color": "#475569"
+      },
+      {
+        "label": "City Council Testimony",
+        "value": 1,
+        "color": "#475569"
+      },
+      {
+        "label": "Letters of Support",
+        "value": 1,
+        "color": "#475569"
+      },
+      {
+        "label": "Digital Reach",
+        "value": 1,
+        "color": "#475569"
+      },
+      {
+        "label": "Direct Mail",
+        "value": 1,
+        "color": "#475569"
       }
     ],
     "contacts": [
+      {
+        "name": "Meredith Schatz (EAB)",
+        "type": "Meeting",
+        "tint": "#faeeda",
+        "text": "#633806",
+        "outcome": "Scheduled Call",
+        "notes": "Scheduled Zoom call for Thursday at 9:30 AM.",
+        "date": "7/20/2026"
+      },
+      {
+        "name": "Teknesha Exume (Zuri)",
+        "type": "Advocacy",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Support letter guidance",
+        "notes": "Provided bullet points for letter of support.",
+        "date": "7/16/2026"
+      },
+      {
+        "name": "Meredith Schatz (EAB)",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Follow-up",
+        "notes": "Mentioned attendance at Chamber event.",
+        "date": "7/15/2026"
+      },
+      {
+        "name": "Matthew Rowe (Council)",
+        "type": "Phone Call",
+        "tint": "#e1f5ee",
+        "text": "#085041",
+        "outcome": "Meeting Request",
+        "notes": "Councilmember stated opposition, but open to dialogue.",
+        "date": "7/14/2026"
+      },
+      {
+        "name": "Keith Epps (Reporter)",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Interview Offer",
+        "notes": "Offered project discussion/talking points.",
+        "date": "7/14/2026"
+      },
+      {
+        "name": "Teknesha Exume (Zuri)",
+        "type": "Advocacy",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Request for support",
+        "notes": "Providing project talking points/flyers.",
+        "date": "7/13/2026"
+      },
+      {
+        "name": "Walker MS PTO",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Introduction",
+        "notes": "Offering project info/site visit.",
+        "date": "7/10/2026"
+      },
       {
         "name": "Lupe Trejo",
         "type": "Email Outreach",
@@ -90,6 +193,15 @@
         "text": "#0c447c",
         "outcome": "Request to submit LTE to Free-Lance Star",
         "notes": "",
+        "date": "7/9/2026"
+      },
+      {
+        "name": "Wendy Zelazny (Chamber)",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Event Coordination",
+        "notes": "Coordinating attendance at Regionalism Matters event.",
         "date": "7/9/2026"
       },
       {
@@ -138,12 +250,66 @@
         "date": "7/8/2026"
       },
       {
-        "name": "Fredercksburg School Board",
-        "type": "Hearing Attended",
-        "tint": "#faece7",
-        "text": "#712b13",
-        "outcome": "4 personal touches with school officials",
-        "notes": "Presentation on 1500 Gateway to the Fredericksburg City School Board during public comment; Comments made by Dr. Wolfenbarger in support of project at the end of meeting; Met with Dr. Wolfenbarger, Superintendent Catlett, Board Member Jarvis Bailey and Clerk of Board Ms. Wilson to thank them for allowing us to speak.",
+        "name": "David Walrod",
+        "type": "Text Outreach",
+        "tint": "#eeedfe",
+        "text": "#3c3489",
+        "outcome": "Request to speal at the 7/14 council meeting",
+        "notes": "",
+        "date": "7/8/2026"
+      },
+      {
+        "name": "Robert Keith Thomas",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Request to speal at the 7/14 council meeting",
+        "notes": "Wants to see a copy of site plan",
+        "date": "7/8/2026"
+      },
+      {
+        "name": "Carley Walker (Chamber)",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Coordination",
+        "notes": "Discussing strategy for advocacy/support.",
+        "date": "7/8/2026"
+      },
+      {
+        "name": "Adele Uphaus (Reporter)",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Inquiries answered",
+        "notes": "Clarified transmission line route and robocall status.",
+        "date": "7/8/2026"
+      },
+      {
+        "name": "Meridith Schatz",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Email follow-up for meeting request",
+        "notes": "",
+        "date": "7/7/2026"
+      },
+      {
+        "name": "Meredith Schatz (EAB)",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "In progress",
+        "notes": "Follow-up on proffer and project benefits.",
+        "date": "7/7/2026"
+      },
+      {
+        "name": "Union Leaders to discuss MOU",
+        "type": "Small Group",
+        "tint": "#fbeaf0",
+        "text": "#72243e",
+        "outcome": "4 Union Leaders contacted; Meeting scheduled for 7/10",
+        "notes": "",
         "date": "7/6/2026"
       },
       {
@@ -153,6 +319,15 @@
         "text": "#085041",
         "outcome": "Left Message",
         "notes": "Follow-up on  meeting while in town.",
+        "date": "7/6/2026"
+      },
+      {
+        "name": "Fredercksburg School Board",
+        "type": "Hearing Attended",
+        "tint": "#faece7",
+        "text": "#712b13",
+        "outcome": "4 personal touches with school officials",
+        "notes": "Presentation on 1500 Gateway to the Fredericksburg City School Board during public comment; Comments made by Dr. Wolfenbarger in support of project at the end of meeting; Met with Dr. Wolfenbarger, Superintendent Catlett, Board Member Jarvis Bailey and Clerk of Board Ms. Wilson to thank them for allowing us to speak.",
         "date": "7/6/2026"
       },
       {
@@ -174,20 +349,20 @@
         "date": "7/2/2026"
       },
       {
-        "name": "Virginia Union Call",
-        "type": "Small Group",
-        "tint": "#fbeaf0",
-        "text": "#72243e",
-        "outcome": "7 major building trade unions joined call to discuss August 25th public hearing",
-        "notes": "",
-        "date": "7/1/2026"
-      },
-      {
         "name": "VA Connects",
         "type": "Phone Call",
         "tint": "#e1f5ee",
         "text": "#085041",
         "outcome": "Talked about putting a proposal together to do digital in Fredericksburg area.",
+        "notes": "",
+        "date": "7/1/2026"
+      },
+      {
+        "name": "Virginia Union Call",
+        "type": "Small Group",
+        "tint": "#fbeaf0",
+        "text": "#72243e",
+        "outcome": "7 major building trade unions joined call to discuss August 25th public hearing",
         "notes": "",
         "date": "7/1/2026"
       },
@@ -210,6 +385,33 @@
         "date": "6/30/2026"
       },
       {
+        "name": "Keith Epps, The Free Lance-Star",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Awaiting response",
+        "notes": "",
+        "date": "6/29/2026"
+      },
+      {
+        "name": "Adele Uphaus, Fredericksburg Free Press",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Awaiting response",
+        "notes": "",
+        "date": "6/29/2026"
+      },
+      {
+        "name": "Uriah Kiser, Potomac Local News",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Awaiting Response",
+        "notes": "Gentle first outreach",
+        "date": "6/29/2026"
+      },
+      {
         "name": "Phone Patch Supporters",
         "type": "Text Outreach",
         "tint": "#eeedfe",
@@ -228,6 +430,24 @@
         "date": "6/29/2026"
       },
       {
+        "name": "Martin Davis, Virginia Free Press",
+        "type": "Email Outreach",
+        "tint": "#e6f1fb",
+        "text": "#0c447c",
+        "outcome": "Gave general info",
+        "notes": "Follow-up received 7/2",
+        "date": "6/28/2026"
+      },
+      {
+        "name": "Dr. Catlett and Dr. Eberhardt",
+        "type": "Small Group",
+        "tint": "#fbeaf0",
+        "text": "#72243e",
+        "outcome": "Fredericksburg School Board request to speak at upcoming meeting was granted",
+        "notes": "",
+        "date": "6/27/2026"
+      },
+      {
         "name": "Dr. Cotter, Micah Ecumonical Ministries",
         "type": "Phone Call",
         "tint": "#e1f5ee",
@@ -244,6 +464,15 @@
         "outcome": "50 Total Thank you text to phone Patch supporters",
         "notes": "",
         "date": "6/26/2026"
+      },
+      {
+        "name": "Ted Barnes",
+        "type": "1:1 Meeting",
+        "tint": "#faeeda",
+        "text": "#633806",
+        "outcome": "",
+        "notes": "",
+        "date": "6/25/2026"
       },
       {
         "name": "Ted Barnes",
@@ -282,6 +511,105 @@
         "date": "6/24/2026"
       },
       {
+        "name": "Fredericksburg Chamber event",
+        "type": "Chamber of Commerce",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "12 key influencers engaged",
+        "notes": "Direct conversations at the Fredericksburg Chamber event, including the Superintendent, Deputy, and Chamber leadership. Source: weekly briefing JPG.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "June 23 City Council meeting",
+        "type": "City Council Testimony",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "2 speakers at the podium",
+        "notes": "Spoke in support at the June 23 City Council meeting: Charles McDaniel and Ernisha Hall. Bonus: met the Great Oaks HOA President. Source: weekly briefing JPG.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "City Council",
+        "type": "Letters of Support",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "5 positive emails to Council",
+        "notes": "Constituents wrote directly to City Council voicing their support for 1500 Gateway. Source: weekly briefing JPG.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "Mailer and project website",
+        "type": "Digital Reach",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "52 unique visitors; 101 page views; 4 QR code scans",
+        "notes": "Momentum from the mailer and project website this week. Source: weekly briefing JPG.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "Residents",
+        "type": "Direct Mail",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "First mail piece delivered; 5,200 residents reached",
+        "notes": "Weekly briefing JPG metric.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "Council offices",
+        "type": "Patch-Through Phone Program",
+        "tint": "#e1f5ee",
+        "text": "#085041",
+        "outcome": "150 residents patched live to Council offices; 16.9% patch rate",
+        "notes": "Universe: 5,639; dials: 15,034; live contacts: 885; patches: 150. Office totals include 123 live and 27 voicemail patches. Source: weekly briefing JPG.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "Mayor Devine",
+        "type": "Patch-Through Phone Program",
+        "tint": "#e1f5ee",
+        "text": "#085041",
+        "outcome": "30 total patches",
+        "notes": "Weekly briefing JPG, week of June 23, 2026. Live: 24; voicemail: 6.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "CM Rowe",
+        "type": "Patch-Through Phone Program",
+        "tint": "#e1f5ee",
+        "text": "#085041",
+        "outcome": "30 total patches",
+        "notes": "Weekly briefing JPG, week of June 23, 2026. Live: 27; voicemail: 3.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "CM Crump",
+        "type": "Patch-Through Phone Program",
+        "tint": "#e1f5ee",
+        "text": "#085041",
+        "outcome": "30 total patches",
+        "notes": "Weekly briefing JPG, week of June 23, 2026. Live: 26; voicemail: 4.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "CM Finn",
+        "type": "Patch-Through Phone Program",
+        "tint": "#e1f5ee",
+        "text": "#085041",
+        "outcome": "30 total patches",
+        "notes": "Weekly briefing JPG, week of June 23, 2026. Live: 24; voicemail: 6.",
+        "date": "6/23/2026"
+      },
+      {
+        "name": "CM Holmes",
+        "type": "Patch-Through Phone Program",
+        "tint": "#e1f5ee",
+        "text": "#085041",
+        "outcome": "30 total patches",
+        "notes": "Weekly briefing JPG, week of June 23, 2026. Live: 22; voicemail: 8.",
+        "date": "6/23/2026"
+      },
+      {
         "name": "Councilmember Finn",
         "type": "1:1 Meeting",
         "tint": "#faeeda",
@@ -289,6 +617,15 @@
         "outcome": "Gave me business card and introduced me to Great Oaks HOA president",
         "notes": "",
         "date": "6/23/2026"
+      },
+      {
+        "name": "Matthew Rathbun, FXBG Realtors",
+        "type": "Text Outreach",
+        "tint": "#eeedfe",
+        "text": "#3c3489",
+        "outcome": "Cant publicly support; will work behind the scenes",
+        "notes": "",
+        "date": "6/17/2026"
       }
     ]
   },
