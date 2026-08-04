@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-08-03T12:55:14.071Z",
+  "syncedAt": "2026-08-04T12:02:22.024Z",
   "status": {
-    "lastSync": "August 3, 2026",
+    "lastSync": "August 4, 2026",
     "outlook": "Watch",
     "nextMilestone": ""
   },
@@ -48,8 +48,8 @@
     }
   ],
   "newThisWeek": {
-    "latest": "July 20, 2026",
-    "total": 56,
+    "latest": "July 31, 2026",
+    "total": 69,
     "typeCounts": [
       {
         "label": "Email Outreach",
@@ -72,6 +72,16 @@
         "color": "#0f766e"
       },
       {
+        "label": "Follow-up",
+        "value": 5,
+        "color": "#475569"
+      },
+      {
+        "label": "Outreach",
+        "value": 4,
+        "color": "#475569"
+      },
+      {
         "label": "Small Group",
         "value": 4,
         "color": "#be185d"
@@ -82,6 +92,11 @@
         "color": "#b45309"
       },
       {
+        "label": "Support",
+        "value": 2,
+        "color": "#475569"
+      },
+      {
         "label": "Advocacy",
         "value": 2,
         "color": "#475569"
@@ -90,6 +105,16 @@
         "label": "Hearing Attended",
         "value": 2,
         "color": "#b91c1c"
+      },
+      {
+        "label": "Meeting Request",
+        "value": 1,
+        "color": "#b45309"
+      },
+      {
+        "label": "Media",
+        "value": 1,
+        "color": "#475569"
       },
       {
         "label": "Meeting",
@@ -123,6 +148,123 @@
       }
     ],
     "contacts": [
+      {
+        "name": "Janaan Holmes",
+        "type": "Follow-up",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Shared proffer info",
+        "notes": "Ongoing outreach",
+        "date": "7/31/2026"
+      },
+      {
+        "name": "Chuck Frye",
+        "type": "Follow-up",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Shared proffer info",
+        "notes": "Ongoing outreach",
+        "date": "7/31/2026"
+      },
+      {
+        "name": "Sandy (City Schools)",
+        "type": "Outreach",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Requested meeting",
+        "notes": "Discuss school benefits",
+        "date": "7/30/2026"
+      },
+      {
+        "name": "Adele Uphaus",
+        "type": "Outreach",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Follow-up",
+        "notes": "Reporter contact",
+        "date": "7/30/2026"
+      },
+      {
+        "name": "Kerry Devine",
+        "type": "Follow-up",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Shared proffer info",
+        "notes": "Ongoing outreach",
+        "date": "7/29/2026"
+      },
+      {
+        "name": "Joy Crump",
+        "type": "Follow-up",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Shared proffer info",
+        "notes": "Ongoing outreach",
+        "date": "7/29/2026"
+      },
+      {
+        "name": "Meredith Schatz",
+        "type": "Follow-up",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Scheduling",
+        "notes": "EDA engagement",
+        "date": "7/27/2026"
+      },
+      {
+        "name": "City Council",
+        "type": "Support",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Support Letter",
+        "notes": "Public supporter",
+        "date": "7/26/2026"
+      },
+      {
+        "name": "Teknesha Exume",
+        "type": "Outreach",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Support secured",
+        "notes": "Zuri Solution",
+        "date": "7/23/2026"
+      },
+      {
+        "name": "City Council",
+        "type": "Support",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Support Letter",
+        "notes": "Public supporter",
+        "date": "7/23/2026"
+      },
+      {
+        "name": "Chamber of Commerce",
+        "type": "Outreach",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Meeting scheduled",
+        "notes": "Marketing strategy",
+        "date": "7/23/2026"
+      },
+      {
+        "name": "Will B. Mackintosh",
+        "type": "Meeting Request",
+        "tint": "#faeeda",
+        "text": "#633806",
+        "outcome": "Meeting held",
+        "notes": "Community engagement",
+        "date": "7/22/2026"
+      },
+      {
+        "name": "Public",
+        "type": "Media",
+        "tint": "#eef2f7",
+        "text": "#334155",
+        "outcome": "Published Op-Ed",
+        "notes": "Support for 1500 Gateway",
+        "date": "7/21/2026"
+      },
       {
         "name": "Meredith Schatz (EAB)",
         "type": "Meeting",
